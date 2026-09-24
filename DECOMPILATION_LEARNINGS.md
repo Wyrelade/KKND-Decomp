@@ -1,8 +1,89 @@
 # Decompilation Learnings
 
-Notes on the Watcom C 32-bit toolchain (`wcc386 -s -of+ -5r -omiler -zm -zp1`, register calling
+Notes on the Watcom C 32-bit toolchain (`wcc386 -s -of+ -5r -omilert -zm -zp1`, register calling
 convention) used by this project. Each entry was verified against real target machine code.
 Append new entries at the top. Search with `python tools/learn.py <terms>`.
+
+## Flags are now `-s -of+ -5r -omilert -zm -zp1`: `-ot` fixes argument set-up order (session 2).
+
+Found by agents A, C and D independently (2026-09-24, part 2). Problem: calls whose arguments are
+load chains. Symptom: retail loads each intermediate pointer straight into its destination
+argument register (`mov edx,[eax+0x18]; mov ebx,[ebx*4+tbl]; mov edx,[edx+0x3c]; mov eax,[eax+0x5c]`),
+`-omiler` builds everything in EAX first. `-ot` also gives retail's `mov eax,edx; sar edx,0x1f; idiv`
+for `%` (not `cdq`), `sub esp,4; mov [ebp-4],edx` spills (not `push edx`) and rotated `for` loops
+with a count in EAX. Fix: `t` in cflags.txt; every earlier match still builds OK and the 28
+per-file overrides were removed. Watch out: `tools/match.py` ignores per-file `/* cflags */` lines.
+
+## Watcom 10.x vs Open Watcom: the recurring non-matching classes (session 2, agents A-D).
+
+Tags used in `tools/difficult_functions`. None has a source-level fix; all are candidates for the
+patched compiler (PLAN 1.7). Skip them quickly and log them.
+
+- `rp` / `rb` / `ra` register preference. Problem: a callee-saved temp or a value that survives a
+  call. Symptom: retail `push ebx; mov ebx,[eax+0x38] ... mov eax,ebx`, OW the same with ECX. With
+  two temps retail gives the first EBX and the next ECX; OW the reverse. Also retail prefers EDX
+  where OW uses EAX for an argument temp. No `-o` letter or `-3r/-4r` changes it. The biggest class
+  (dozens of 3-7 byte near misses: func_0002E940, func_00046C70, func_0001A9F0, func_00026620 ...).
+- `mul` constant multiply. Symptom: retail strength-reduces (`mov edx,eax; shl eax,2; sub eax,edx;
+  shl eax,3; add eax,edx` for *100, `lea edx,[ecx*8]; sub edx,ecx; shl edx,3` for *56); OW 1.9
+  always emits `imul reg,reg,K`. Blocks every array of odd-size structs (func_0001E0E0, func_000142D0).
+- `ci` constants via registers. Symptom: retail `mov ebx,1; xor edx,edx; mov [A],ebx; mov [B],edx`
+  (and `push edx; xor edx,edx; mov [G],edx; pop edx` for a single `G = 0`), OW `mov dword [A],1` /
+  `xor eax,eax; mov [G],eax`. Retail then reuses the zero register as a later call argument.
+- `fold` memory operands. Symptom: retail `mov ebx,[eax]; sub edx,ebx`, `mov ah,[edx+0x2b];
+  test ah,0x40`, `mov dl,[edx+0xb]; or dl,0x40; mov [eax+0xb],dl`; OW folds into `sub edx,[eax]`,
+  `test byte ptr`, `or byte ptr`. Bitfields, locals and volatile do not help.
+- `isel` misc: retail `lea edx,[eax*4]` vs OW `mov edx,eax; shl edx,2`; retail keeps `x == x`
+  (`cmp eax,eax`), OW folds it; retail `cwde; test eax,eax` for a `short >= 0`, OW `test ax,ax`;
+  the memcmp intrinsic's `xor eax,eax` is `31c0` in retail, `33c0` in OW.
+- `cse1`: OW propagates a known compare value (`b == 1` then `mov eax,edx`), retail materialises
+  `mov eax,1`.
+
+## Loops: retail rotates them; write `if (guard) do { ... } while (cond);` (session 2).
+
+Problem: any counted or list loop. Symptom: retail `test; jle out` guard, body, bottom
+`cmp; jl top`; OW keeps a `for`/`while` as top test + `jmp` back. Fix: write the rotated form by
+hand: `if (m > 0) do { ... } while (i < m);` (func_000372F0, func_00032650) or for a sentinel list
+`if (m != &head) do { ... } while (m != &head);` (func_0001A990, func_0001A9C0). With `-ot` a plain
+`for (n = s->f8, p = s->f14; n != 0; n--, p++)` also rotates (func_0001C330).
+
+## Call sites: Watcom 10 assumes callees preserve argument registers -> `#pragma aux X modify exact [eax]`.
+
+Problem: a value in an argument register is reused after a call. Symptom (func_0002B520):
+retail `xor edx,edx; call func_000523F0; mov [D_000CFB28],edx`, OW re-materialises `xor eax,eax`
+after the call. Fix: on that one callee, `#pragma aux func_000523F0 modify exact [eax]`. Never
+`#pragma aux default ...`: that also changes the definitions (they start saving parameter
+registers, which retail definitions do not). Related: if retail sets EDX before a call to a 1-arg
+function, that is the next call's argument hoisted, so declare the first callee with one parameter.
+
+## Hidden register parameters: unsaved EBX/ECX, or a scratch value in ESI/EDI (session 2).
+
+Problem: the prologue does not push EBX (or ECX) but the body clobbers it, or retail picks ESI/EDI
+for a one-shot scratch while EBX/ECX look free. Fix: those registers are (unused) parameters;
+declare 3 or 4 params and pass them through (func_0001CBB0, func_000514C0, func_000514F0).
+
+## Indirect call through a parameter or local: make the pointer `volatile` (session 2).
+
+Symptom: retail `mov [ebp-8],ebx; call dword ptr [ebp-8]`, OW `call ebx`. Fix:
+`int (*volatile c)()` (func_00036A20). Also: a parameter retail spills and re-reads
+(`mov [ebp-x],edx; mov esi,[ebp-x]`) matches with `volatile int n` (func_000372F0).
+
+## Variadic callees are watcall with stack args, not `__cdecl` (session 2).
+
+`push str; call f; add esp,4` with no save of ECX/EDX around it = `void f(char *fmt, ...);`.
+Declaring it `__cdecl` makes OW push/pop ECX/EDX in the caller (func_00012520, func_0003FBE0).
+
+## Small source tricks that fixed register choice (session 2).
+
+- Reuse a dead parameter: `a = (BeastObj *)a->field_3C; ((BeastState *)a)->field_20->field_4++;
+  g(a);` keeps EAX like retail; a new local went to EDX (func_0003C1B0).
+- Load into a local: `IniLine *p = G; if (p->next) G = p->next;` (func_000696B0).
+- Two calls differing in one constant: write both calls in if/else, not a ternary argument; OW
+  tail-merges the common suffix exactly like retail (func_00047E50).
+- Inline port I/O: OW `conio.h` `inp` encodes `2b c0 ec`, retail `29 c0 ec`. Define your own:
+  `#pragma aux snd_inp = 0x29 0xc0 0xec parm [edx] value [eax] modify exact [eax];` (func_0001CAD0).
+- Hand-written asm callee with odd registers: `#pragma aux func_0004C0F7 parm [eax] [edx] [ecx]`.
+- A function whose VA is not 16-byte aligned is not Watcom C (`-zm` aligns all); skip it.
 
 ## Drop `-ob`: Open Watcom's branch prediction moves `if` bodies behind the epilogue (kickoff).
 

@@ -1,4 +1,3 @@
-/* cflags: -s -of+ -5r -omilert -zm -zp1 */
 /* tower.c: 59 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 #include "tower.h"

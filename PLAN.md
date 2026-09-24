@@ -95,8 +95,7 @@ the existing extractor work (`../_extract/kknd_extract.py`).
 
 ## Next session — start here
 
-1. Merge `doc/agent_notes/{A,B,C,D}.md` into `DECOMPILATION_LEARNINGS.md` (agent findings) and
-   their hard-function lists into `tools/difficult_functions`.
+1. ~~Merge `doc/agent_notes/` into the journal and `tools/difficult_functions`~~ (done session 2; `-ot` made global).
 2. Finish PLAN 1.7: validate the patched `wcc386` (build must stay `OK`), then the loop patch.
 3. Apply unambiguous names from `configs/DOS/name_evidence.csv` to `symbols.txt` in one pass
    (rename across `src/`, regenerate `asm/`).

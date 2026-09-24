@@ -1,4 +1,3 @@
-/* cflags: -s -of+ -5r -omilert -zm -zp1 */
 /* uinput.c: 17 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 

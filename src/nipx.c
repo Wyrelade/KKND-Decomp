@@ -1,4 +1,3 @@
-/* cflags: -s -of+ -5r -omilert -zm -zp1 */
 /* nipx.c: 25 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 void func_00070AD0(int, int, int, u16, int, int);

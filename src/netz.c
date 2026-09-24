@@ -1,4 +1,3 @@
-/* cflags: -s -of+ -5r -omilert -zm -zp1 */
 /* netz.c: 29 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 extern char D_000B7568[], D_000C427C[], D_000B1B70[], D_000B1B3C[];

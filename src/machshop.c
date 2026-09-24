@@ -1,4 +1,3 @@
-/* cflags: -s -of+ -5r -omilert -zm -zp1 */
 /* machshop.c: 13 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 /* decls */

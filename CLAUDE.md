@@ -50,7 +50,7 @@ tools always compile from `build/tmp` with relative paths — keep it that way.
 ## Toolchain / compiler
 
 Watcom C/C++32 (runtime banner "1988-1994", i.e. Watcom 10.0/10.0a class). Flags pinned in
-`configs/DOS/cflags.txt`: `-s -of+ -5r -omiler -zm -zp1`. Calling convention = Watcom register:
+`configs/DOS/cflags.txt`: `-s -of+ -5r -omilert -zm -zp1`. Calling convention = Watcom register:
 args in EAX, EDX, EBX, ECX then stack; callee saves every register it uses except EAX;
 functions get a trailing `_` (`func_00012080_`), data a leading `_`. See `COMPILER_ANALYSIS.md`.
 A file can override flags with a first line `/* cflags: ... */`.

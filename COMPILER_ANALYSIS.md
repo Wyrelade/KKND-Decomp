@@ -10,7 +10,7 @@ kept an older compiler (normal for a long project). The UniVBE library object ca
 2.0 (current snapshot) give identical output on every probe so far. Open Watcom descends from
 Watcom 11.0c, so 10.x→11 codegen changes are the expected source of non-matches.
 
-**Flags:** `configs/DOS/cflags.txt` = `-s -of+ -5r -omiler -zm -zp1`
+**Flags:** `configs/DOS/cflags.txt` = `-s -of+ -5r -omilert -zm -zp1`
 
 | Flag | Why | Evidence |
 |---|---|---|
@@ -18,6 +18,7 @@ Watcom 11.0c, so 10.x→11 codegen changes are the expected source of non-matche
 | `-of+` | stack frame on every function | leaf functions still `push ebp; mov ebp,esp` |
 | `-5r` | register calling convention, Pentium target | `and eax,0xff` for `u8` (with `-3r`: `movzx`); `-4r` equal so far |
 | `-omiler` | `-ox` **without `-ob`** | `-or` is required; Open Watcom's `-ob` moves an `if` body after the epilogue (`jne skip` → `je body … jmp back`), retail never does (3 probes); `m`,`i`,`l`,`e` not yet distinguished |
+| `-ot` | favour time | argument load chains go straight into their argument registers, `%` uses `mov eax,edx; sar edx,31`, spills use `sub esp,4; mov [ebp-4],r`, `for` loops rotate (agents A/C/D, session 2); no earlier match lost |
 | `-zm` | one segment per function | 16-byte zero fill between functions, no cross-function tail merge |
 | `-zp1` | packed structures [H] | a dword read at `[eax+0x2F]` (func_0004C2D0); no code difference yet |
 
