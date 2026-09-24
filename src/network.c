@@ -4,7 +4,7 @@
 extern int *D_000BB8B0;
 extern char D_000B1164[];
 void func_0004C080(char *, ...);
-void func_0001F3C0(void *);
+void NETZ_ReleaseAddr(void *);
 void func_0001F5F0();
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00012550);
@@ -18,26 +18,26 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_0001277C);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00013910);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00013930);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00013970);
-void func_000139D0(void **p) { func_0001F3C0(*p); *p = 0; }
+void func_000139D0(void **p) { NETZ_ReleaseAddr(*p); *p = 0; }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000139F0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00013A10);
+INCLUDE_ASM("asm/DOS/nonmatchings", AddToAddrList);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00013A60);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00013A90);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00013AE0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00013B20);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00013B60);
+INCLUDE_ASM("asm/DOS/nonmatchings", InitAddrList);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00013BC0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00013CF0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000141C0);
-int func_00014200(u32 i) { int *t = D_000BB8B0; if (t == 0 || i >= 10) { func_0004C080(D_000B1164); return 0; } return t[i]; }
+int GetServerAddr(u32 i) { int *t = D_000BB8B0; if (t == 0 || i >= 10) { func_0004C080(D_000B1164); return 0; } return t[i]; }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00014230);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00014280);
+INCLUDE_ASM("asm/DOS/nonmatchings", GetServerName);
+INCLUDE_ASM("asm/DOS/nonmatchings", FindLink);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000142D0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00014310);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_000143A0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00014460);
+INCLUDE_ASM("asm/DOS/nonmatchings", GetFreeColour);
+INCLUDE_ASM("asm/DOS/nonmatchings", GetFreePlayer);
+INCLUDE_ASM("asm/DOS/nonmatchings", FatalNetError);
 void func_000144D0(void)
 {
 }

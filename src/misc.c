@@ -7,7 +7,7 @@ void func_00027D7B(int);
 extern u8 D_000B96B8[];
 extern s32 D_000BB8B0;
 extern char D_000B1850[];
-s32 func_00013B60(int a);
+s32 InitAddrList(int a);
 void func_0004C080(char *fmt, ...);
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000112B0);
@@ -55,7 +55,7 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_00012420);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00012470);
 int func_00012520(void)
 {
-    D_000BB8B0 = func_00013B60(10);
+    D_000BB8B0 = InitAddrList(10);
     if (D_000BB8B0 == 0)
         func_0004C080(D_000B1850);
     return 0;

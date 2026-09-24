@@ -60,11 +60,11 @@ void func_00027500(void)
 }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00027510);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00027640);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00027900);
+INCLUDE_ASM("asm/DOS/nonmatchings", LVL_RunLevel);
+INCLUDE_ASM("asm/DOS/nonmatchings", LVL_LoadLevelAsync);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000279B0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00027B80);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00027C30);
+INCLUDE_ASM("asm/DOS/nonmatchings", LVL_LoadLevel);
+INCLUDE_ASM("asm/DOS/nonmatchings", LVL_SysInit);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00027D58);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00027D7A);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00027D7B);

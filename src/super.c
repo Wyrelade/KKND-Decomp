@@ -100,7 +100,7 @@ s32 func_000348A0(void)
     return D_000CFFC8;
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_000348B0);
+INCLUDE_ASM("asm/DOS/nonmatchings", servcancel);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00034980);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00034A70);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00034B60);
@@ -118,13 +118,13 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_000354A0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00035770);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000357F0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00035A10);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00035A70);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00035B90);
+INCLUDE_ASM("asm/DOS/nonmatchings", netnew);
+INCLUDE_ASM("asm/DOS/nonmatchings", netjoin);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00035D00);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00035D60);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00035DC0);
+INCLUDE_ASM("asm/DOS/nonmatchings", net_menu);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00036070);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_000360E0);
+INCLUDE_ASM("asm/DOS/nonmatchings", player_list);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000362D0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00036330);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00036390);
@@ -176,21 +176,21 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_00037420);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00037480);
 void func_000374E0(int a)
 {
-    func_00037570(a, D_000B4E94, 0x6d0, 6);
+    mubuttons(a, D_000B4E94, 0x6d0, 6);
 }
 
 void func_00037510(int a)
 {
-    func_00037570(a, D_000B4E8C, 0x6e0, 5);
+    mubuttons(a, D_000B4E8C, 0x6e0, 5);
 }
 
 void func_00037540(int a)
 {
-    func_00037570(a, D_000B4E88, 0x670, 4);
+    mubuttons(a, D_000B4E88, 0x670, 4);
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00037570);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00037620);
+INCLUDE_ASM("asm/DOS/nonmatchings", mubuttons);
+INCLUDE_ASM("asm/DOS/nonmatchings", mu_init);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00037660);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000376C0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00037770);

@@ -98,8 +98,8 @@ the existing extractor work (`../_extract/kknd_extract.py`).
 
 1. ~~Merge `doc/agent_notes/` into the journal and `tools/difficult_functions`~~ (done session 2; `-ot` made global).
 2. ~~PLAN 1.7 patched `wcc386`~~ (done session 2, default toolchain).
-3. Apply unambiguous names from `configs/DOS/name_evidence.csv` to `symbols.txt` in one pass
-   (rename across `src/`, regenerate `asm/`).
+3. ~~Apply unambiguous names from `name_evidence.csv`~~ (done session 2: 55 names; 8 ambiguous
+   candidates and names on unaligned VAs left for review).
 4. Continue matching by module with `tools/score_functions.py` (parallel agents per module group
    worked well: ~230 matches in one run).
 

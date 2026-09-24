@@ -67,7 +67,7 @@ void func_00039120();
 void func_0001A6E0();
 void func_00033C30();
 int func_00038210();
-void func_00037570();
+void mubuttons();
 void func_0002A8E0();
 void func_0001A6A0();
 void func_00038DA0();

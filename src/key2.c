@@ -101,11 +101,11 @@ void func_00070300(char *msg, int v)
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00070320);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00070370);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_000703A0);
+INCLUDE_ASM("asm/DOS/nonmatchings", GetLocalAddr);
 int func_00070400(u8 *a)
 {
     return wc10_memcmp(a, D_000D7080->field_4, 6) == 0;
 }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00070440);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00070490);
+INCLUDE_ASM("asm/DOS/nonmatchings", InitECBPool);

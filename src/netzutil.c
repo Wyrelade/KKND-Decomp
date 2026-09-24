@@ -7,13 +7,13 @@ extern NetzPacket *D_000BDF74;
 extern char D_000B2FE0[];
 extern char D_000B2EB0[];
 extern void (*D_000BDBB4)(int, char *, ...);
-int func_00029A00(NetzEvent *);
+int NETZ_CancelEvent(NetzEvent *);
 int func_000299A0(NetzEvent *);
 void func_00050DF0(void);
 void func_0004B670(int, int, int, int);
 int func_000267D0(void);
 int func_0002A070(void);
-void func_0001F250(int);
+void NETZ_Hangup(int);
 int func_00029EC0(int);
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00029650);
@@ -24,14 +24,14 @@ void func_00029910(void)
 {
     if (D_000BDF7C)
         do
-            func_00029A00(D_000BDF7C);
+            NETZ_CancelEvent(D_000BDF7C);
         while (D_000BDF7C);
 }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00029940);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00029970);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000299A0);
-int func_00029A00(NetzEvent *e)
+int NETZ_CancelEvent(NetzEvent *e)
 {
     if (e->field_0 == 0) {
         D_000BDBB4(0x45, D_000B2FE0, e);
@@ -40,13 +40,13 @@ int func_00029A00(NetzEvent *e)
     return func_000299A0(e);
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00029A30);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00029AC0);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_ProcessEvents);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_AddEvent);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00029BD0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00029C40);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_InitEventPool);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00029CE0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00029D30);
-void func_00029DD0(NetzPacket *p)
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_InitPacketPool);
+void NETZ_ReleasePacket(NetzPacket *p)
 {
     if (p->field_0 == 0) {
         D_000BDBB4(0x45, D_000B2EB0, p);
@@ -58,11 +58,11 @@ void func_00029DD0(NetzPacket *p)
     }
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00029E10);
-int func_00029E90(void) { int i; for (i = 0; i < 8; i++) { func_0001F250(i); func_00029EC0(i); } return 0; }
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_GrabPacket);
+int func_00029E90(void) { int i; for (i = 0; i < 8; i++) { NETZ_Hangup(i); func_00029EC0(i); } return 0; }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00029EC0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00029F00);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_OpenLink);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00029FB0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00029FF0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002A020);

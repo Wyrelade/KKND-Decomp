@@ -157,11 +157,11 @@ void func_0001F0D0(void)
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F0E0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F110);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F140);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F1A0);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_IsAddrSame);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_RefreshUserInfo);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F1F0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F250);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F2D0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F370);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F3C0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F410);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_Hangup);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_Send);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_Connect);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_ReleaseAddr);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_GrabSenderAddr);

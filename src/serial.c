@@ -5,8 +5,8 @@ extern u16 D_000C4292;
 extern u8 D_000D1EE0;
 extern int D_000C42BC, D_000C42B8, D_000D4250;
 extern char D_000D4254[];
-void func_0005F6A0(int, int, int, int, int);
-void func_0005F410(); void func_0005F030(); void func_00029DD0(void *);
+void do_send(int, int, int, int, int);
+void func_0005F410(); void func_0005F030(); void NETZ_ReleasePacket(void *);
 void func_0004C09C(int, char *, int); void func_0005E340(void); void func_0005F360(char *, int);
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005E360);
@@ -32,7 +32,7 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_0005EA60);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005EAD0);
 void func_0005EB70(int a) { if (a) func_0004C09C(a, D_000C427C, 0x972); }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0005EB90);
+INCLUDE_ASM("asm/DOS/nonmatchings", SER_GrabSenderAddress);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005EC30);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005ECA0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005EE80);
@@ -44,15 +44,15 @@ void func_0005F2B0(void)
 {
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0005F2C0);
+INCLUDE_ASM("asm/DOS/nonmatchings", SER_LostLink);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005F360);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005F410);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005F4B0);
 void func_0005F4E0(void) { func_0005F410(); func_0005F030(); }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005F500);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0005F6A0);
-void func_0005F7F0(int a, u8 b, int c, int d) { func_0005F6A0(a, b, c, d, 1); }
+INCLUDE_ASM("asm/DOS/nonmatchings", do_send);
+void func_0005F7F0(int a, u8 b, int c, int d) { do_send(a, b, c, d, 1); }
 
 void func_0005F810(void) { func_0005F360(D_000D4254, D_000D4250); func_0005F030(); }
 
@@ -60,7 +60,7 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_0005F830);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005F880);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005F8A0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005F930);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0005F9A0);
+INCLUDE_ASM("asm/DOS/nonmatchings", SER_Init);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005FA50);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005FA90);
 int func_0005FB30(u16 x) { D_000C4292 = x; return 0; }

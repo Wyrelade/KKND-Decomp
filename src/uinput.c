@@ -1,7 +1,7 @@
 /* uinput.c: 17 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0004A010);
+INCLUDE_ASM("asm/DOS/nonmatchings", MultiPlayerControlLoop);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004A6D0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004A700);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004A91C);

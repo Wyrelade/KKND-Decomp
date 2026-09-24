@@ -8,14 +8,14 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F470);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F560);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F5A0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F5F0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F630);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F730);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_SelectProtocol);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_DetectAll);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F770);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F820);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F880);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F8E0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F960);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001F9D0);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_Unlock);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_Lockin);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_SwitchMode);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_Setup);
+INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_Init);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001FB90);
 char *func_0001FE90(void) { return D_000B1B70; }
 

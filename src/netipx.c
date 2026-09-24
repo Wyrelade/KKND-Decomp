@@ -12,9 +12,9 @@ extern u8 D_000BE8EC;
 extern u8 D_000D0940;
 extern int D_000C211E;
 int func_0004D010(int, char *);
-void func_00070800(char *, char *, int);
+void IPX_Send(char *, char *, int);
 void func_0004D47C(char *, int, int, char *, int, int);
-int func_0004C2E0(void);
+int MIPX_SetupServerConnection(void);
 void func_0004D060(int, int, char *, int);
 extern int D_000D0768;
 int func_00070BF0();
@@ -30,7 +30,7 @@ void func_0004C1E0(void)
 }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004C220);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0004C250);
+INCLUDE_ASM("asm/DOS/nonmatchings", MIPX_Hangup);
 void func_0004C2C0(void)
 {
 }
@@ -40,10 +40,10 @@ s32 func_0004C2D0(NetIpxPacket *p)
     return p->field_2F;
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0004C2E0);
+INCLUDE_ASM("asm/DOS/nonmatchings", MIPX_SetupServerConnection);
 void func_0004C410(int a, int b)
 {
-    D_000C2120 = func_0004C2E0();
+    D_000C2120 = MIPX_SetupServerConnection();
     D_000D0940 = D_000BE8EC;
     func_0004D060(D_000C211E >> 16, 0x1F, D_000D0930, 0x31);
 }
@@ -57,7 +57,7 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_0004C6F0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004C750);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004C7B0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004C7D0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0004C810);
+INCLUDE_ASM("asm/DOS/nonmatchings", MIPX_SetupClientConnection);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004C9B8);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004CD20);
 int func_0004CD50(void)
@@ -80,7 +80,7 @@ void func_0004CE70(int a)
 {
     char buf[8];
     if (!func_0004D010(a, buf))
-        func_00070800(buf, D_000D07E0, 0x6E);
+        IPX_Send(buf, D_000D07E0, 0x6E);
 }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004CEA0);
