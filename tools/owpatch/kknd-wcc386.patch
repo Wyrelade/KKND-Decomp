@@ -117,6 +117,76 @@ index 9a812700..df76f781 100644
          }
          if( new_head != NULL
            && new_head != Head ) {
+diff --git a/bld/cg/c/multiply.c b/bld/cg/c/multiply.c
+index 76c9e5da..abc589fa 100644
+--- a/bld/cg/c/multiply.c
++++ b/bld/cg/c/multiply.c
+@@ -31,6 +31,7 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
+ #include "coderep.h"
+ #include "data.h"
+ #include "makeins.h"
+@@ -74,6 +75,20 @@ static  int     Factor( uint_32 num, int *cost )
+     if( num == 0xFFFFFFFF )
+         return( i );
+ 
++    if( getenv( "KKND_OWFACTOR" ) == NULL ) {
++        /* KKND: Watcom 10.x shifts out the trailing power of two last: n*56 = ((n<<3)-n)<<3 */
++        shlcnt = 0;
++        while( (num & 1) == 0 ) {
++            ++shlcnt;
++            num >>= 1;
++        }
++        if( shlcnt != 0 ) {
++            if( --i < 0 )
++                return( MAXOPS );
++            Ops[i].op = DO_SHL;
++            Ops[i].cnt = shlcnt;
++        }
++    }
+     test = num >> 1;
+     do {
+         pow2 = 1;
+diff --git a/bld/cg/intel/386/c/386rgtbl.c b/bld/cg/intel/386/c/386rgtbl.c
+index 3ea68d69..b5a02900 100644
+--- a/bld/cg/intel/386/c/386rgtbl.c
++++ b/bld/cg/intel/386/c/386rgtbl.c
+@@ -31,6 +31,7 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
+ #include "coderep.h"
+ #include "data.h"
+ #include "i87data.h"
+@@ -285,11 +286,11 @@ static const hw_reg_set     ABCDRegs[] = {
+     HW_D_1( HW_ECX ),
+     HW_D_1( HW_EMPTY )
+ };
+-static const hw_reg_set     DoubleRegs[] = {
++static hw_reg_set           DoubleRegs[] = {   /* KKND: Watcom 10.x order, EBX before ECX */
+     HW_D_1( HW_EAX ),
+     HW_D_1( HW_EDX ),
+-    HW_D_1( HW_ECX ),
+     HW_D_1( HW_EBX ),
++    HW_D_1( HW_ECX ),
+     HW_D_1( HW_ESI ),
+     HW_D_1( HW_EDI ),
+     HW_D_1( HW_EBP ),
+@@ -636,6 +637,10 @@ void            InitRegTbl( void )
+  * Initialize the tables.
+  */
+ {
++    if( getenv( "KKND_ECXFIRST" ) != NULL ) {   /* KKND: stock OW order */
++        HW_CAsgn( DoubleRegs[2], HW_ECX );
++        HW_CAsgn( DoubleRegs[3], HW_EBX );
++    }
+     if( _FPULevel( FPU_87 ) ) {
+         HW_CAsgn( STParmReg[Max87Stk], HW_EMPTY );
+     }
 diff --git a/bld/cg/intel/c/x86enc2.c b/bld/cg/intel/c/x86enc2.c
 index cfc28780..6545a667 100644
 --- a/bld/cg/intel/c/x86enc2.c
@@ -138,6 +208,34 @@ index cfc28780..6545a667 100644
      if( _CPULevel( CPU_486 ) ) {
          if( depth == PROC_ALIGN || depth == DEEP_LOOP_ALIGN )
              return( 16 );
+diff --git a/bld/cg/intel/c/x86mul.c b/bld/cg/intel/c/x86mul.c
+index 37aaf4e8..258b7341 100644
+--- a/bld/cg/intel/c/x86mul.c
++++ b/bld/cg/intel/c/x86mul.c
+@@ -31,6 +31,7 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
+ #include "coderep.h"
+ #include "data.h"
+ #include "multiply.h"
+@@ -48,7 +49,14 @@ int     MulCost( uint_32 num )
+      * is less than the number of cycles it takes to execute, to give slight
+      * preference to multiply versus a shift/add sequence.
+      */
+-    if( _CPULevel( CPU_686 ) ) {
++    if( getenv( "KKND_OWMUL" ) == NULL && _CPULevel( CPU_386 ) ) {
++        /* KKND: Watcom 10.x used the 386/486 early-out cost for every 32-bit target */
++        cost = 4;
++        while( num ) {
++            cost++;
++            num >>= 1;
++        }
++    } else if( _CPULevel( CPU_686 ) ) {
+         /* On the Pentium Pro and up, multiply is pretty cheap. */
+         cost = 3;
+     } else if( _CPULevel( CPU_586 ) ) {
 diff --git a/bld/cg/intel/c/x86segs.c b/bld/cg/intel/c/x86segs.c
 index d5bb49a4..e28fa262 100644
 --- a/bld/cg/intel/c/x86segs.c

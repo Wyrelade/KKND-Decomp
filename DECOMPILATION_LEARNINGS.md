@@ -4,6 +4,17 @@ Notes on the Watcom C 32-bit toolchain (`wcc386 -s -of+ -5r -omilert -zm -zp1`, 
 convention) used by this project. Each entry was verified against real target machine code.
 Append new entries at the top. Search with `python tools/learn.py <terms>`.
 
+## `rp` and `mul` are compiler differences, now patched: EBX before ECX, shift/add multiplies (session 2).
+
+Found 2026-09-24 (session 2). Problem: the two biggest near-miss classes from the agents. Symptom:
+retail `push ebx; mov ebx,[eax+0x38]` where OW took ECX; retail `lea edx,[ecx*8]; sub edx,ecx;
+shl edx,3` where OW emitted `imul edx,ecx,0x38`. Cause: OW's 32-bit register table lists ECX
+before EBX (Watcom 10 had EBX first, like the 16-bit table), and OW's multiply cost for `-5r` is a
+flat 6 (Pentium), which beats most shift/add sequences. Fix: patched `DoubleRegs[]` order,
+`MulCost()` uses the 386/486 early-out estimate, and `Factor()` applies the trailing power of two
+last. func_0002E940 matches as plain C. Functions tagged `rp`/`mul` in `tools/difficult_functions`
+are worth a retry.
+
 ## The patched `wcc386` is the default: switch tables, no loop padding, no entry threading (session 2).
 
 Found 2026-09-24 (session 2), details in `doc/compiler_patch.md`. Four Watcom 10.x behaviours are

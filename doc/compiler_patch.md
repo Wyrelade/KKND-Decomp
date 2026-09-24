@@ -24,6 +24,9 @@ loop class.
 | `cg/intel/c/x86enc2.c` `DepthAlign()` | no alignment padding anywhere: not at loop heads (`-ot` pads deep loops to 16 with `lea` NOPs) and not at the code after a jump table | `KKND_LOOPALIGN=1` | no `lea r,[r]` NOPs in the whole retail exe; func_0001CDC4 code starts right after its 20-byte table |
 | `cg/c/cse.c` `CommonSex()` | `StretchEdges()` is off: no jump threading of a condition known on loop entry | `KKND_STRETCH=1` | func_000121B0 (`for (i = 0; i < 0xC4; i++) if (i != 0x54) f(i);`) |
 | `cg/c/loopopts.c` `TwistLoop()` | a single-exit loop whose condition cannot be copied into the preheader is entered at its bottom test (`jmp test; body; test: jcc body`) | `KKND_NOROT=1` | func_00053700 (`if (p) for (; n > 0; n--) *p++ = 0;`) |
+| `cg/intel/386/c/386rgtbl.c` `DoubleRegs[]` | 32-bit register preference EAX, EDX, **EBX, ECX**, ESI, EDI (OW: ECX before EBX; the 16-bit `WordRegs` table already had BX first) | `KKND_ECXFIRST=1` | func_0002E940 (`rp` class) now matches; no earlier match lost |
+| `cg/intel/c/x86mul.c` `MulCost()` | multiply cost uses the 386/486 early-out estimate (4 + bits of the constant) for every 32-bit CPU level, so `-5r` strength-reduces like Watcom 10 | `KKND_OWMUL=1` | retail never uses `imul reg,reg,K` for struct indexing (`mul` class) |
+| `cg/c/multiply.c` `Factor()` | the trailing power of two is shifted last: `n*56` = `((n<<3)-n)<<3` (`lea edx,[ecx*8]; sub edx,ecx; shl edx,3`) | `KKND_OWFACTOR=1` | func_0001C260 instruction sequence |
 | `cg/c/blktrim.c` `Retarget()` | experiment only, off by default: `KKND_NORETRET=1` stops retargeting a conditional jump to a return block | (default is stock) | lets a goto-shaped func_00053700 match; not needed with the loop patch |
 
 The `KKND_*` variables are read with `getenv()` in the code generator, so they apply to a whole
@@ -62,7 +65,7 @@ explicitly, e.g. `a->field_10 = (int (*)())func_00046920;`.
 These classes have no source-level fix. See `tools/difficult_functions` for the tagged lists and
 `DECOMPILATION_LEARNINGS.md` for examples.
 
-- `rp` register preference: Watcom 10 takes EBX before ECX for a callee-saved temp.
-- `mul`: Watcom 10 strength-reduces a multiply by a constant into shift/add/sub sequences.
+- `mul` register choice: with the sequence now right, func_0001C260 still keeps a different value
+  in ECX vs the stack slot (register allocation around the multiply temp).
 - `ci`: Watcom 10 loads constants into a register before storing them to memory.
 - `fold`: Watcom 10 loads a memory operand into a register before an ALU op.

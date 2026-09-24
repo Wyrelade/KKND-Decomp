@@ -53,7 +53,7 @@ There is no splat/objdiff for Watcom LE executables, so Phase 0 built the equiva
 | 1.5 | Easy tier | Leaf functions, getters/setters, wrappers, init loops across all game modules via `score_functions.py`. |
 | 1.6 | Discovery cleanup | Remove data false positives, split merged functions, name the `int` thunks. |
 | 1.7 | Patched wcc386 (**done 2026-09-24, session 2**) | `doc/compiler_patch.md`, `tools/owpatch/kknd-wcc386.patch`. Default toolchain. Switch `cs:` + Watcom 10 switch costs + pure binary search, no loop/table padding, no loop-entry threading, bottom-test loop entry. Unblocked func_000121B0, func_00053700, func_000323B0, func_0001CDC4. Next patches: 1.8. |
-| 1.8 | More compiler patches | `rp` register preference (EBX before ECX), `mul` constant-multiply strength reduction, `ci` constants via registers, `fold` memory-operand loads. Largest class first (`rp`, then `mul`). |
+| 1.8 | More compiler patches | **done:** `rp` register preference (EBX before ECX), `mul` strength reduction + factor order (session 2). **Open:** `ci` constants via registers, `fold` memory-operand loads, `mul` temp register choice. |
 
 ## ▶ PHASE 2 — Core engine
 
