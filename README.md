@@ -1,7 +1,7 @@
 # KKND Decompilation
 
 <!-- PROGRESS:BADGE -->
-![matched](https://img.shields.io/badge/matched-360%2F3713%20(9.70%25)-1f6feb)
+![matched](https://img.shields.io/badge/matched-477%2F3713%20(12.85%25)-1f6feb)
 <!-- /PROGRESS:BADGE -->
 ![build](https://img.shields.io/badge/build-byte--identical-2ea043)
 ![platform](https://img.shields.io/badge/platform-DOS%20(Watcom%20C%20%2B%20DOS%2F4GW)-8957e5)
@@ -41,9 +41,9 @@ with every relocation resolving to the original target — a scratch match alone
 <!-- PROGRESS:TABLE -->
 | Component | Functions | Matched | Progress |
 |---|---:|---:|---|
-| **Main executable** (`KKND.EXE`) | 3713 | 360 | `▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱` 9.70% |
-| &nbsp;&nbsp;└ Game code (`src/*.c`, 48 modules) | 2006 | 359 | `▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱` 17.90% |
-| &nbsp;&nbsp;└ Libraries (`src/lib/`) | 1707 | 1 | `▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱` 0.06% |
+| **Main executable** (`KKND.EXE`) | 3713 | 477 | `▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱` 12.85% |
+| &nbsp;&nbsp;└ Game code (`src/*.c`, 48 modules) | 2006 | 474 | `▰▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱` 23.63% |
+| &nbsp;&nbsp;└ Libraries (`src/lib/`) | 1707 | 3 | `▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱` 0.18% |
 <!-- /PROGRESS:TABLE -->
 
 Game code is the 48 C modules Beam Software wrote (`main.c`, `units.c`, `mission.c`,

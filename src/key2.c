@@ -1,6 +1,9 @@
 /* key2.c: 96 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 #include "key2.h"
+/* decls */
+int func_0006DD10(int a, int b, int c, int d, Key2Req *r);
+int func_0006D5B0(int a, int b, int c, int d, Key2Req *r);
 extern NetAddr *D_000D7080;
 extern char D_000B7E48[];
 extern void (*D_000BDBB4)(int, char *, ...);
@@ -37,7 +40,17 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_0006D400);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0006D5B0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0006DA50);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0006DD10);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0006DE00);
+int func_0006DE00(int a, int b, int c, int d, Key2Req *r)
+{
+    switch (r->field_18->field_4C) {
+    case 0x80:
+    case 0x200:
+        return func_0006DD10(a, b, c, d, r);
+    case 0x1000:
+        return func_0006D5B0(a, b, c, d, r);
+    }
+    return 0;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0006DE50);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0006DF40);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0006E0D0);

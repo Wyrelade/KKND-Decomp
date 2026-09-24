@@ -1,6 +1,19 @@
 /* ini.c: 49 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 #include "ini.h"
+/* decls */
+extern char D_000D5DB7[];
+void func_000691D0(char *s);
+void func_00069160(char *s);
+int func_00085C07(char *s);
+extern char D_000B7AFC[];
+extern char D_000B7B00[];
+int func_00068FA0(char *s);
+int func_0006B2DF(char *a, char *b);
+extern char D_000D53B4[];
+extern char D_000C4D0C[];
+void func_00014E42(void *a, void *b, int c, char *file, int line);
+void func_00069498(int);
 extern char D_000D5300[];
 extern char D_000D5270[];
 extern s32 D_000D5394;
@@ -35,7 +48,11 @@ s32 func_00069650(void)
     return D_000D5394;
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00069660);
+void func_00069660(IniLine *l)
+{
+    func_00014E42(D_000D53B4, l->field_0, 0x401, D_000C4D0C, 0x184);
+    func_00069498(7);
+}
 char *func_000696A0(void)
 {
     return D_000D53B0->field_0;
@@ -48,10 +65,38 @@ void func_000696B0(void)
         D_000D53B0 = p->field_8;
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_000696D0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00069750);
+int func_000696D0(void)
+{
+    int r;
+    func_00014E42(D_000D5DB7, D_000D53B0->field_0, 0x401, D_000C4D0C, 0x149);
+    func_000691D0(D_000D5DB7);
+    func_00069160(D_000D5DB7);
+    if (func_00068FA0(D_000D5DB7)) {
+        if ((r = func_0006B2DF(D_000D5DB7, D_000B7AFC)) == 0)
+            return r;
+        return 1;
+    }
+    return func_00085C07(D_000D5DB7) != 0;
+}
+void func_00069750(void)
+{
+    func_00014E42(D_000D5DB7, D_000D53B0->field_0, 0x401, D_000C4D0C, 0x136);
+    func_000691D0(D_000D5DB7);
+    func_00069160(D_000D5DB7);
+    func_00085C07(D_000D5DB7);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000697A0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00069810);
+int func_00069810(char *s)
+{
+    int r;
+    if (func_00068FA0(s)) {
+        if ((r = func_0006B2DF(s, D_000B7AFC)) == 0 && (r = func_0006B2DF(s, D_000B7B00)) == 0)
+            return r;
+    } else if ((r = func_00068F60(s)) == 0) {
+        return r;
+    }
+    return 1;
+}
 int func_00069860(void)
 {
     return func_00068F60() != 0;
@@ -65,7 +110,12 @@ int func_00069880(void)
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000698A0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000698D0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00069980);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_000699E0);
+void func_000699E0(char *a, char *b, s32 c)
+{
+    func_00014E42(D_000D5270, a, 0x90, D_000C4D0C, 0x7f);
+    func_00014E42(D_000D5300, b, 0x90, D_000C4D0C, 0x80);
+    D_000D5394 = c;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00069A2B);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00069A5B);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00069AC0);

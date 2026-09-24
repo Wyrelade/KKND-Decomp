@@ -2,6 +2,17 @@
 #include "common.h"
 #include "fmv.h"
 /* decls */
+extern FmvNode D_000CEB00;
+extern FmvNode D_000CEB10;
+extern s32 D_000CEB18;
+int func_00027F50(void);
+void func_000207F0(FmvNode *a);
+void func_00020790(FmvNode *a);
+void func_00020730(FmvNode *a, FmvNode *b);
+void func_00027E10(FmvNode *a);
+void func_00020A30(void);
+void func_0004DEC7();
+int func_000206D0(void);
 s32 func_000204C0(int a, int b, int c, int d, int e, int f, int g);
 void func_00060D92();
 extern s32 *D_000BC908;
@@ -41,8 +52,31 @@ void func_00020600(FmvSrc *a, FmvView *b)
     b->field_2C = a->field_40;
 }
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00020630);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00020660);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_000206D0);
+void func_00020660(void)
+{
+    FmvNode *n;
+    for (n = D_000CEB10.next; n != &D_000CEB10; n = n->next)
+        n->field_B |= 0x80;
+    for (n = D_000CEB00.next; n != &D_000CEB00; n = n->next)
+        n->field_B |= 0x80;
+    while (func_000206D0() == 0)
+        func_00020A30();
+    while (func_00027F50() == 0)
+        func_00020A30();
+    func_0004DEC7(D_000CEB18);
+}
+int func_000206D0(void)
+{
+    if (func_00027F50() == 0)
+        return 0;
+    func_000207F0(&D_000CEB10);
+    func_00020790(&D_000CEB10);
+    func_000207F0(&D_000CEB00);
+    func_00020790(&D_000CEB00);
+    func_00020730(&D_000CEB00, &D_000CEB10);
+    func_00027E10(&D_000CEB10);
+    return 1;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00020730);
 void func_00020790(FmvNode *a)
 {

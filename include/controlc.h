@@ -37,7 +37,7 @@ typedef struct CcState {
     s32 field_4;
     CcSprite *field_8;
     CcSprite *field_C;
-    void (*field_10)(struct CcState *);
+    void (*field_10)();
     s32 field_14;
     s32 field_18;
     u8 _pad1C[0xC];
@@ -60,5 +60,51 @@ typedef struct CcTaskEnt {
     u8 _pad0[0x3C];
     CcTask *state;
 } CcTaskEnt;
+
+typedef struct CcHook {
+    void (*fn)(struct CcHook *);
+    s32 field_4;
+    struct CcOwner *field_8;
+} CcHook;
+
+typedef struct CcOwner {
+    u8 _pad0[0x38];
+    s32 field_38;
+    CcHook *field_3C;
+} CcOwner;
+
+typedef struct CcTgt {
+    u8 _pad0[0x14];
+    s32 field_14;
+    u8 _pad18[0x68];
+    s32 field_80;
+    u8 _pad84[0x5C];
+    s32 field_E0;
+    s32 field_E4;
+    s32 field_E8;
+    u8 _padEC[4];
+    s32 field_F0;
+    s32 field_F4;
+} CcTgt;
+
+typedef struct CcAimCfg {
+    u8 _pad0[8];
+    s32 field_8;
+    u8 _padC[0xC];
+    s32 field_18;
+} CcAimCfg;
+
+typedef struct CcTur {
+    void (*field_0)();
+    s32 field_4;
+    CcTgt *field_8;
+    s32 field_C;
+    void (*field_10)();
+    s32 field_14;
+    u8 _pad18[0x10];
+    CcAimCfg *field_28;
+    u8 _pad2C[4];
+    s32 field_30;
+} CcTur;
 
 #endif

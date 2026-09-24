@@ -1,5 +1,10 @@
 /* effect.c: 12 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
+/* decls */
+extern s32 D_000BDE9C;
+extern s32 D_000BDEA0;
+void func_00026F40(s32 a, s32 b);
+#pragma aux func_00026F40 modify exact [eax]
 extern s32 D_000BDEA4;
 extern s32 D_000BDEA8[];
 extern s32 D_000BDE88;
@@ -13,7 +18,11 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_00028040);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000281D0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00028220);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00028280);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_000282B0);
+void func_000282B0(void)
+{
+    func_00026F40(D_000BDE9C, 0);
+    D_000BDEA0 = 0;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000282D0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00028330);
 s32 func_00028470(void)

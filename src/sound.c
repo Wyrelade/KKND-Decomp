@@ -3,6 +3,11 @@
 #include <conio.h>
 #include "sound.h"
 /* decls */
+extern s32 D_000CDD60;
+extern s32 D_000CDD68;
+extern s32 D_000CDD6C;
+extern s32 D_000CDD64;
+extern s32 D_000CDD80[][7];
 void func_00054D24();
 extern s32 D_000CC9D8;
 extern s32 D_000BDA34;
@@ -180,7 +185,11 @@ void func_0001CB00(int idx, int r, int g, int b)
     outp(0x3c9, g);
     outp(0x3c9, b);
 }
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001CB30);
+int func_0001CB30(int n)
+{
+    D_000BD8EC = (D_000BD8EC * 0xc45 + 0x362b) & 0xffff;
+    return D_000BD8EC % n;
+}
 s32 func_0001CB70(void) { return D_000BD8EC = (D_000BD8EC * 0xc45 + 0x362b) & 0xffff; }
 s32 func_0001CB90(void) { return D_000BD8E8 = (D_000BD8E8 * 0xc45 + 0x362b) & 0xffff; }
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001CBB0);
@@ -221,7 +230,16 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_0001D6C0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DA20);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DA50);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DBA0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DC00);
+int func_0001DC00(int a, SndPos *s)
+{
+    if (s->f10 == 0x43)
+        return 0;
+    if (s->f10 == 0x44)
+        return 1;
+    if (s->f14 != 0 && D_000CDD80[a][s->f14] == 0)
+        return 1;
+    return 0;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DC50);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DCA0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DE10);
@@ -237,7 +255,18 @@ void func_0001DFF0(void)
 {
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001E000);
+SndNode *func_0001E000(void)
+{
+    SndNode *n = D_000CDD70;
+    SndNode *r;
+    if (n != &D_000CDE94) {
+        r = n;
+        D_000CDD70 = n->next;
+    } else {
+        r = 0;
+    }
+    return r;
+}
 void func_0001E030(void) { D_000CDD70 = D_000CDE94.next; }
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001E050);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001E0E0);
@@ -250,6 +279,14 @@ SndNode *func_0001E110(s32 key)
     return 0;
 }
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001E140);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001E1C0);
+void func_0001E1C0(s32 a, s32 b, s32 c, s32 d)
+{
+    SndNode *p = D_000CDE94.next;
+    D_000CDD60 = a;
+    D_000CDD68 = b;
+    D_000CDD6C = c;
+    D_000CDD64 = d;
+    D_000CDD70 = p;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001E1F0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001E270);

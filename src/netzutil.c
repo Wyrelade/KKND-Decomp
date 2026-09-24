@@ -2,6 +2,22 @@
 #include "common.h"
 #include "netzutil.h"
 /* decls */
+extern NzRegs D_000CFA88;
+extern char D_000BDF60[];
+void func_0004C163(void *, int, int, char *, int, int);
+void func_00038244(int, NzRegs *, NzRegs *, NzSregs *);
+extern NzPeer *D_000CFB38;
+extern int D_000CFB30;
+extern int D_000BE3C4;
+extern int D_000BDA4C;
+void func_0001BD80(int, int, int, int, int);
+extern int D_000BDF90;
+extern int D_000BB290;
+extern NzPlayerFlags D_000C310D[];
+extern int D_000BEAF0;
+extern NzPeer *D_000CFB6C;
+int func_0002A3C0(void);
+void func_0002AB60(int, int, int);
 extern int *D_000CC7A0;
 extern NetzGame *D_000CFB3C;
 extern NetzEvent *D_000BDF7C;
@@ -18,7 +34,18 @@ NetzPlayer *func_0002A070(void);
 void NETZ_Hangup(int);
 int func_00029EC0(int);
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00029650);
+NzRegs *func_00029650(u8 n, int a, int b, int c, int d)
+{
+    NzSregs s;
+    func_0004C163(&D_000CFA88, 0, 0x1C, D_000BDF60, 0x1FA, 4);
+    func_0004C163(&s, 0, 0xC, D_000BDF60, 0x1FB, 4);
+    D_000CFA88.eax = a;
+    D_000CFA88.ebx = b;
+    D_000CFA88.ecx = c;
+    D_000CFA88.edx = d;
+    func_00038244(n, &D_000CFA88, &D_000CFA88, &s);
+    return &D_000CFA88;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000296E0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000297B0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00029860);
@@ -77,10 +104,33 @@ NetzPlayer *func_0002A070(void)
 }
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002A0A0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002A120);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002A190);
+void func_0002A190(void)
+{
+    if (D_000BDF90) {
+        if (!func_0002A3C0())
+            func_0001BD80(0x42, 0, D_000BE3C4, 0, 0);
+        else
+            func_0001BD80(0x88, 0, D_000BE3C4, 0, 0);
+        if (D_000BDF90) {
+            func_0004B670(0, 0x5EA, 0, D_000CFB38->field_8);
+            func_0004B670(0, 0x5E7, 0, D_000CFB30);
+        }
+        D_000BDA4C++;
+    }
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002A220);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002A270);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002A2C0);
+void func_0002A2C0(void)
+{
+    if (!D_000BDF90 && !(D_000C310D[D_000BB290].field_0 & 0x20)) {
+        D_000BDF90 = 1;
+        if (func_0002A3C0())
+            func_0002AB60(D_000BEAF0, 0x2B, 0x8BC);
+        else
+            func_0002AB60(D_000BEAF0, 0x2C, 0x8BC);
+        func_0004B670(0, 0x5EA, 0, D_000CFB6C->field_8);
+    }
+}
 void func_0002A330(void)
 {
 }

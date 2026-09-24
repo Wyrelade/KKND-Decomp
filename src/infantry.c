@@ -5,7 +5,19 @@ void func_000462F0();
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003D930);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003DAF0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0003DB50);
+void func_0003DB50(InfBase *a, int b, int msg, int d)
+{
+    InfUnit *s = a->field_3C;
+    if (s->field_90 == 0) {
+        switch (msg) {
+        case 0x5e7: func_0005D2B0(s, d); break;
+        case 0x5e8: func_0005D290(s, d); break;
+        case 0x5eb: func_0006C360(s, d); break;
+        case 0x5df: func_0003D170(s, d); break;
+        case 0x5f4: func_0003D660(s, d); break;
+        }
+    }
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003DBD0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003DC40);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003DCA0);
@@ -16,7 +28,19 @@ void func_0003DEA0(InfUnit *a)
     func_0001A060(a->field_C, 0x10000000, 0);
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0003DEF0);
+void func_0003DEF0(InfUnit *a)
+{
+    func_0001C9C0(D_000B662C, a->field_10, a->field_134, a->field_5C->field_10, a->field_5C->field_14);
+    func_0001C9F0(D_000B6648);
+    func_0001C9F0(D_000B666C);
+    func_0001C9F0(D_000B6688);
+    func_0001A6A0(a->field_5C, a->field_18->field_38, D_000CD960[a->field_80]);
+    a->field_40 = func_0003DEA0;
+    a->field_90 = 1;
+    func_0004B600(a->field_C, 0x5e8, a, 0x9876);
+    func_000514C0(a, a->field_AC, a->field_B0, a->field_A8);
+    a->field_C->field_34 = func_0003DBD0;
+}
 void func_0003DFC0(InfUnit *a)
 {
     func_000514C0(a, a->field_AC, a->field_B0, a->field_A8);
@@ -29,7 +53,23 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_0003E000);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003E1E0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003E350);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003E410);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0003E4D0);
+void func_0003E4D0(InfUnit *a)
+{
+    a->field_5C->field_1C = 0;
+    a->field_5C->field_20 = 0;
+    func_0001A6A0(a->field_5C, a->field_18->field_3C, D_000CD960[a->field_80]);
+    if (!func_0001DE10(&a->field_80, 0xa0, a->field_18->field_1C)) {
+        a->field_5C->field_1C = 0x40;
+        a->field_5C->field_20 = -0x40;
+        func_0001A6A0(a->field_5C, a->field_18->field_38, D_000CD960[a->field_80]);
+        a->field_12C = 0x64;
+        a->field_E0 = 0;
+        a->field_40 = func_0003E5A0;
+        a->field_E4->field_20->field_8 = 1;
+        a->field_58 = a->field_C->field_34;
+    }
+    func_0001A060(a->field_C, 0x80000000, 1);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003E5A0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003E670);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003E7C0);
@@ -80,7 +120,22 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_000429B0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00042A10);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00042A80);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00042B20);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00042C00);
+void func_00042C00(InfUnit *a)
+{
+    s32 r;
+    r = (D_000BD8F0 * 0xc45 + 0x362b) & 0xffff; D_000BD8F0 = r; r &= 0x7f;
+    if (r < 0x46) {
+        if (a->field_18->field_34 != -1) {
+            func_0001A6A0(a->field_5C, a->field_18->field_34, D_000CD960[a->field_80]);
+            a->field_5C->field_60 = 0;
+        }
+    } else {
+        a->field_80 = (r < 0x64 ? a->field_80 + 0x20 : a->field_80 - 0x20) & 0xff;
+        func_0001A5B0(a->field_5C, a->field_18->field_3C, D_000CD960[a->field_80]);
+    }
+    a->field_40 = func_00042E30;
+    func_0001A060(a->field_C, 0x80000000, 0x50);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00042CB0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00042E30);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00042FB0);
@@ -173,7 +228,16 @@ void func_000468D0(InfFx *a)
 }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00046920);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_000469D0);
+void func_000469D0(InfFx *a)
+{
+    a->field_30 = 0;
+    func_0001A6A0(a->field_4, a->field_28->field_18, D_000CD960[a->field_14]);
+    if (func_00046A40(a)) {
+        a->field_10 = (int (*)())func_00046920;
+        func_0001A060(a->field_0, 0x80000000, 1);
+    }
+    func_0001A060(a->field_0, 0x80000000, 0x5a);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00046A40);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00046C00);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00046C70);

@@ -15,7 +15,22 @@ typedef struct MpNode {
     struct MpNode *field_0;
     u8 _pad4[0x4];
     s32 field_8;
+    s32 field_C;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
 } MpNode;
+
+/* Save record for one MpNode payload (0x18 bytes, see func_00019C10/func_00019C60). */
+typedef struct MpSave {
+    s32 field_0;
+    s32 field_4;
+    s32 field_8;
+    s32 field_C;
+    s32 field_10;
+    s32 field_14;
+} MpSave;
 
 /* Object whose 0x10 field is temporarily overridden around func_000516D0. */
 typedef struct MpSprite {

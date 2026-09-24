@@ -25,7 +25,20 @@ int func_0002D080(AirUnit *a)
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002D0A0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002D120);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002D1A0);
+void func_0002D1A0(AirKey *a)
+{
+    s32 k = a->field_10;
+    AirNode *n;
+    for (n = D_000CFDD0.next; n != &D_000CFDD0; n = n->next) {
+        if (k == n->field_8->field_134) {
+            n->next->prev = n->prev;
+            n->prev->next = n->next;
+            n->next = D_000CFDE0;
+            D_000CFDE0 = n;
+            return;
+        }
+    }
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002D1F0);
 void func_0002D240(void)
 {
@@ -73,33 +86,294 @@ int func_0002D9B0(void)
 }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002D9C0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002DB10);
+int func_0002DB10(AirUnit *a)
+{
+    int r = 1;
+    u32 f;
+    AirMsg *m;
+    do {
+        f = func_0001A060(a, 0x50000000, 0);
+        if (!(f & 0x40000000)) break;
+        while ((m = func_0004B5E0(a)) != 0) {
+            if (m->field_8 == 0x5f8) r = 0;
+            func_0004B5C0(m);
+        }
+    } while (!r && !(f & 0x10000000));
+    return r;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002DB70);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002DC10);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002DC90);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002DD20);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002DDB0);
+void func_0002DC10(AirUnit *a)
+{
+    s32 s;
+    func_0002E970(a, 0xda000007, 0x64, 0x67, 3);
+    func_00033340(a->field_38, 0, 1, 1, 0);
+    if (func_0002D9C0(a, 0x648, 1, 1)) func_0002FB80(a);
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002DC90(AirUnit *a)
+{
+    int r;
+    s32 s;
+    func_0002E970(a, 0xda000006, -0x1e, 0x67, 3);
+    func_00033340(a->field_38, 0, 0, 1, 0);
+    do {
+        r = func_0002D9C0(a, 0x630, 2, 1);
+        func_0004B670(a, 0x5e8, 0, D_000CFE70);
+    } while (r);
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002DD20(AirUnit *a)
+{
+    int r;
+    s32 s;
+    func_0002E970(a, 0xda000006, -0x50, 0x67, 3);
+    func_00033340(a->field_38, 0, 0, 1, 0);
+    do {
+        r = func_0002D9C0(a, 0x63c, 2, 1);
+        func_0004B670(a, 0x5eb, 0, D_000CFE70);
+    } while (r);
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002DDB0(AirUnit *a)
+{
+    int r;
+    s32 s;
+    func_0006C530(a);
+    func_0002E970(a, 0xda000007, 0x14, 0x67, 3);
+    func_00033340(a->field_38, 0, 0, 1, 0);
+    do {
+        r = func_0002D9C0(a, 0x654, 1, 1);
+        if (r) func_0004B670(a, 0x60d, 0, D_000CFE70);
+    } while (r);
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002DE40);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002DED0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002DF40);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002DFB0);
+void func_0002DED0(AirUnit *a)
+{
+    int r;
+    s32 s;
+    func_0002EA20(a, 0xda000001, -0x82, 0x99, 3);
+    do {
+        r = func_0002D9C0(a, 0x2dc, 2, 0);
+        func_0004B670(a, 0x5e8, 0, D_000CFE70);
+    } while (r);
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002DF40(AirUnit *a)
+{
+    int r;
+    s32 s;
+    func_0002EA20(a, 0xda000001, -0xb4, 0x99, 3);
+    do {
+        r = func_0002D9C0(a, 0x2e8, 2, 0);
+        func_0004B670(a, 0x5eb, 0, D_000CFE70);
+    } while (r);
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002DFB0(AirUnit *a)
+{
+    int r;
+    s32 s;
+    func_0006C530(a);
+    func_0002EA20(a, 0xda000001, -0x50, 0x99, 3);
+    do {
+        r = func_0002D9C0(a, 0x324, 1, 0);
+        if (r) func_0004B670(a, 0x60d, 0, D_000CFE70);
+    } while (r);
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E030);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E0C0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E130);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E1A0);
+void func_0002E0C0(AirUnit *a)
+{
+    int r;
+    s32 s;
+    func_0002EA20(a, 0xda000001, -0x82, 0x99, 3);
+    do {
+        r = func_0002D9C0(a, 0x2dc, 2, 0);
+        func_0004B670(a, 0x5e8, 0, D_000CFE70);
+    } while (r);
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002E130(AirUnit *a)
+{
+    int r;
+    s32 s;
+    func_0002EA20(a, 0xda000001, -0xb4, 0x99, 3);
+    do {
+        r = func_0002D9C0(a, 0x2e8, 2, 0);
+        func_0004B670(a, 0x5eb, 0, D_000CFE70);
+    } while (r);
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002E1A0(AirUnit *a)
+{
+    int r;
+    s32 s;
+    func_0006C530(a);
+    func_0002EA20(a, 0xda000001, -0x50, 0x99, 3);
+    do {
+        r = func_0002D9C0(a, 0x318, 1, 0);
+        if (r) func_0004B670(a, 0x5f4, 0, D_000CFE70);
+    } while (r);
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E220);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E2A0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E340);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E3A0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E410);
+void func_0002E340(AirUnit *a)
+{
+    s32 s;
+    func_0002EA20(a, 0xda000003, 0, 0x78, 1);
+    if (func_0002D9C0(a, 0x300, 1, 0)) func_0002FF70(0);
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002E3A0(AirUnit *a)
+{
+    s32 s;
+    func_0002EA20(a, 0xda000003, -0x5a, 0x78, 1);
+    if (func_0002D9C0(a, 0x30c, 1, 0)) D_000BB284 = 3;
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002E410(AirUnit *a)
+{
+    s32 s;
+    func_0002EA20(a, 0xda000003, 0, 0x78, 1);
+    if (func_0002D9C0(a, 0x300, 1, 0)) func_00030090(0);
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E470);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E560);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E5F0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E670);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E700);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E780);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E800);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E880);
+void func_0002E560(AirUnit *a)
+{
+    s32 s;
+    s16 v = D_000BB898 ? 0xa2 : 0x72;
+    func_0002EA20(a, 0xda000002, -0x5c, v, 7);
+    if (func_0002D9C0(a, 0x33c, 0, 0)) {
+        func_0004B670(a, 0x5f3, 0, D_000CFE80);
+        func_0001A060(a, 0x80000000, 1);
+    }
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002E5F0(AirUnit *a)
+{
+    s32 s;
+    func_0002EA20(a, 0xda000002, -0x5c, 0x8a, 6);
+    if (func_0002D9C0(a, 0x36c, 0, 0)) {
+        func_0004B670(a, 0x5f7, 0, D_000CFE80);
+        func_0001A060(a, 0x80000000, 1);
+    }
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002E670(AirUnit *a)
+{
+    s32 s;
+    s16 v = D_000BB898 ? 0x72 : 0x5a;
+    func_0002EA20(a, 0xda000002, -0x5c, v, 5);
+    if (func_0002D9C0(a, 0x348, 0, 0)) {
+        func_0004B670(a, 0x5f8, 0, D_000CFE80);
+        func_0001A060(a, 0x80000000, 1);
+    }
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002E700(AirUnit *a)
+{
+    s32 s;
+    func_0002EA20(a, 0xda000002, -0x5c, 0x5a, 4);
+    if (func_0002D9C0(a, 0x354, 0, 0)) {
+        func_0004B670(a, 0x5f6, 0, D_000CFE80);
+        func_0001A060(a, 0x80000000, 1);
+    }
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002E780(AirUnit *a)
+{
+    s32 s;
+    func_0002EA20(a, 0xda000002, -0x5c, 0x42, 3);
+    if (func_0002D9C0(a, 0x384, 0, 0)) {
+        func_0004B670(a, 0x5e3, 0, D_000CFE80);
+        func_0001A060(a, 0x80000000, 1);
+    }
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002E800(AirUnit *a)
+{
+    s32 s;
+    func_0002EA20(a, 0xda000002, -0x5c, 0x2a, 2);
+    if (func_0002D9C0(a, 0x378, 0, 0)) {
+        func_0004B670(a, 0x5e5, 0, D_000CFE80);
+        func_0001A060(a, 0x80000000, 1);
+    }
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
+void func_0002E880(AirUnit *a)
+{
+    s32 s;
+    s16 v = D_000BB898 ? 0x12 : 0x42;
+    func_0002EA20(a, 0xda000002, -0x5c, v, 1);
+    if (func_0002D9C0(a, 0x360, 0, 0)) {
+        func_0004B670(a, 0x5f4, 0, D_000CFE80);
+        func_0001A060(a, 0x80000000, 1);
+    }
+    s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
 void func_0002E910(void *a, int b)
 {
     func_0004B670(a, b, 0, D_000CFE80);

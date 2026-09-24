@@ -2,6 +2,11 @@
 #include "common.h"
 #include "mouseptr.h"
 /* decls */
+int func_0002A3C0(void);
+int func_000393D0(int);
+int func_00039CC0(int);
+int func_00039390(int);
+int func_00039C80(int);
 MpMob *func_0001AB70(int a, int b, int c);
 void func_00019A70();
 void func_000516D0(MpSprite *s);
@@ -20,7 +25,25 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_00015BC0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00015DC0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00016380);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00016990);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00016CB0);
+int func_00016CB0(int id)
+{
+    if (id >= 0x34 && id <= 0x39) {
+        if (func_0002A3C0()) {
+            if (func_000393D0(id))
+                return 1;
+        } else if (func_00039CC0(id)) {
+            return 1;
+        }
+    } else {
+        if (func_0002A3C0()) {
+            if (func_00039390(id))
+                return 1;
+        } else if (func_00039C80(id)) {
+            return 1;
+        }
+    }
+    return 0;
+}
 void func_00016D30(void **a)
 {
     void **e = a + 20;
@@ -72,7 +95,23 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_00019A30);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00019A70);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00019AE0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00019B50);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00019C10);
+int func_00019C10(MpSave *d)
+{
+    MpNode *n = D_000CC610.field_0;
+    if (n != &D_000CC610) {
+        do {
+            d->field_0 = n->field_8;
+            d->field_4 = n->field_C;
+            d->field_8 = n->field_10;
+            d->field_C = n->field_14;
+            d->field_10 = n->field_18;
+            d->field_14 = n->field_1C;
+            n = n->field_0;
+            d++;
+        } while (n != &D_000CC610);
+    }
+    return 1;
+}
 int func_00019C60(void)
 {
     MpNode *n = D_000CC610.field_0;

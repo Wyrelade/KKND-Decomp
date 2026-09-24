@@ -7,9 +7,9 @@
 > `python tools/update_readme_progress.py --sync` (recounts from `src/`, rewrites these two
 > lines, regenerates the README badge and progress table) and include both files in the commit.
 
-**Main exe functions identified: 3713 · matched: 360 (9.70%)**  ·  updated 2026-09-24
+**Main exe functions identified: 3713 · matched: 477 (12.85%)**  ·  updated 2026-09-24
 
-**Game code: 359/2006 · Libraries: 1/1707**
+**Game code: 474/2006 · Libraries: 3/1707**
 
 ## Phase 0 Bring-up
 

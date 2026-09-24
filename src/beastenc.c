@@ -18,7 +18,16 @@ void func_0003C100(void)
 }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003C110);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0003C180);
+void func_0003C180(BeastObj *a, int b, int c, int d)
+{
+    if (c == 0x607) {
+        a = (BeastObj *)a->field_3C;
+        ((BeastState *)a)->field_20->field_4++;
+        func_0005D580(a);
+        return;
+    }
+    func_0004EED0(a, b, c, d);
+}
 void func_0003C1B0(BeastObj *a)
 {
     a = (BeastObj *)a->field_3C;
@@ -35,7 +44,28 @@ void func_0003C1D0(BeastObj *a)
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003C200);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003C2A0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003C390);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0003C400);
+void func_0003C400(BeastObj *a, int b, int msg, int d)
+{
+    BeastObj *s = (BeastObj *)a->field_3C;
+    BeastObj *t;
+    switch (msg) {
+    case 0x5ed:
+        func_0004F2C0(s, func_0003C1D0);
+        return;
+    case 0x5df:
+        func_0004F210(s, d, func_0003C1D0);
+        func_0005DC00(s);
+        return;
+    case 0x607:
+        t = s;
+        s = (BeastObj *)((BeastState *)s)->field_20;
+        ((BeastCnt *)s)->field_4++;
+        if (((BeastCnt *)s)->field_4 > 8) ((BeastCnt *)s)->field_4 = 8;
+        func_0005D580(t);
+        break;
+    }
+    func_0004EED0(a, b, msg, d);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003C480);
 void func_0003C4B0(BeastObj *a)
 {

@@ -1,10 +1,33 @@
 /* mob.c: 20 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 #include "mob.h"
+/* decls */
+extern s32 D_000CC7A8;
+extern s16 D_000BD6D4;
+extern char **D_000CC7A0;
+void func_0001A470(Mob *m);
 extern Mob D_000CC798;
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001A3D0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001A410);
+void func_0001A410(void)
+{
+    Mob *m;
+    s16 c;
+    if (D_000CC7A8 != 0) {
+        m = D_000CC798.field_0;
+        if (m != &D_000CC798) {
+            do {
+                if (D_000BD6D4 != 0 && m->field_6C != 0)
+                    c = m->field_6C->field_1C & 1;
+                else
+                    c = 1;
+                if (c)
+                    func_0001A470(m);
+                m = m->field_0;
+            } while (m != &D_000CC798);
+        }
+    }
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001A470);
 void func_0001A580(Mob *m)
 {
@@ -16,7 +39,17 @@ void func_0001A580(Mob *m)
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001A5B0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001A630);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001A6A0);
+void func_0001A6A0(Mob *m, int off, int idx)
+{
+    m->field_4C = ((s32 **)(D_000CC7A0[m->field_C] + off))[idx];
+    if (m->field_4C != 0) {
+        if (*m->field_4C != 0)
+            m->field_60 = *m->field_4C;
+        m->field_64 = -1;
+        m->field_50 = m->field_4C;
+        func_0001A470(m);
+    }
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001A6E0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001A720);
 Mob *func_0001A990(Mob *m)

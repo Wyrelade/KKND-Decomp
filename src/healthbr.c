@@ -2,6 +2,26 @@
 #include "common.h"
 #include "healthbr.h"
 /* decls */
+extern char D_000C420A[];
+void func_0004C163();
+void func_0005D990();
+void func_0005DB20();
+extern char D_000B7320[];
+void func_0005D060();
+void func_0005D370();
+extern char D_000B7344[];
+HbBox *func_0001A010();
+void func_0001C9F0(char *fmt, ...);
+void func_0005D0F0();
+void func_0005D2D0();
+void hb_outpb(unsigned port, u8 v);
+#pragma aux hb_outpb = 0xee parm [edx] [al] modify exact [];
+void hb_cli(void);
+#pragma aux hb_cli = 0xfa modify exact [];
+void hb_sti(void);
+#pragma aux hb_sti = 0xfb 0xfc modify exact [];
+void hb_outp(unsigned port, unsigned v);
+#pragma aux hb_outp = 0xee parm [edx] [eax] modify exact [];
 extern s32 D_000D1D4C;
 void func_00062430();
 void func_0005D220();
@@ -24,8 +44,48 @@ void func_00075D42();
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005C9F0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005CA90);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005CC70);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0005CE50);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0005CEF0);
+void func_0005CE50(HbUnit *u)
+{
+    HbStat *st = u->f20;
+    HbSprite *s;
+    st->f70 = func_0001A010(u->fc, 0x12a);
+    if (st->f70 == 0) {
+        func_0001C9F0(D_000B7344);
+        return;
+    }
+    st->f70->f0 = 0x20;
+    st->f70->f4 = 9;
+    st->f70->f8 = 0;
+    u->f290 = (s32)st->f70;
+    u->f28c = 0;
+    u->f288 = func_00062430;
+    s = func_00020870(u->f5c, func_0005D0F0);
+    u->f294 = s;
+    s->fc = u;
+    func_0005D2D0(u);
+    u->f294->fb |= 0x40;
+}
+void func_0005CEF0(HbUnit *u)
+{
+    HbStat *st = u->f20;
+    HbSprite *s;
+    st->f14 = func_0001A010(u->fc, 0x3e8);
+    if (st->f14 == 0) {
+        func_0001C9F0(D_000B7320);
+        return;
+    }
+    st->f14->f0 = 0x42;
+    st->f14->f4 = 0xf;
+    st->f14->f8 = 0;
+    u->f290 = (s32)st->f14;
+    u->f28c = 0;
+    u->f288 = func_00062430;
+    s = func_00020870(u->f5c, func_0005D060);
+    u->f294 = s;
+    s->fc = u;
+    func_0005D370(u);
+    u->f294->fb |= 0x40;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005CF90);
 void func_0005D010(HbUnit *u)
 {
@@ -45,7 +105,22 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_0005D1C0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005D220);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005D290);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005D2B0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0005D2D0);
+void func_0005D2D0(HbUnit *u)
+{
+    u8 *p = u->f20->f70->f9;
+    int i;
+    func_0004C163(p, 1, 0x120, D_000C420A, 0x1cc, 4);
+    func_0004C163(p, 0xa6, 0x20, D_000C420A, 0x1cd, 4);
+    func_0004C163(p + 0x100, 0xa4, 0x20, D_000C420A, 0x1ce, 4);
+    p += 0x20;
+    for (i = 0; i < 7; i++) {
+        p[0] = 0xa6;
+        p[0x1f] = 0xa4;
+        p += 0x20;
+    }
+    func_0005D990(u);
+    func_0005DB20(u);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005D370);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005D450);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005D580);
@@ -79,8 +154,22 @@ int func_0005E1A0(void)
     if (D_000D1EE0 && D_000D1EE1) return hb_inp(D_000D1EFE) & 0x80;
     return 0;
 }
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0005E1D0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0005E200);
+void func_0005E1D0(void)
+{
+    if (D_000D1EE0) {
+        hb_cli();
+        hb_outp(D_000D1EF6, hb_inp(D_000D1EF6) | 1);
+        hb_sti();
+    }
+}
+void func_0005E200(void)
+{
+    if (D_000D1EE0) {
+        hb_cli();
+        hb_outpb(D_000D1EF6, hb_inp(D_000D1EF6) & 0xfe);
+        hb_sti();
+    }
+}
 int func_0005E230(void)
 {
     if (D_000D1EE0) return hb_inp(D_000D1EFE) & 0x10;

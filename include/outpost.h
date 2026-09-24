@@ -16,7 +16,8 @@ typedef struct OutObj {
 typedef struct OutPos { u8 _pad0[0x1C]; s32 field_1C; s32 field_20; u8 _pad24[0x4C]; s32 field_70; } OutPos;
 typedef struct OutCtl { u8 _pad0[0x90]; s32 field_90; } OutCtl;
 typedef struct OutData {
-    u8 _pad0[0x8];
+    u8 _pad0[0x4];
+    s32 field_4;
     s32 field_8;
     u8 _padC[0x4];
     s32 field_10;
@@ -50,7 +51,7 @@ typedef struct OutUnit {
     struct OutUnit *field_3C;
     void (*field_40)();
     u8 _pad44[0x4];
-    s32 field_48;
+    void (*field_48)();
     u8 _pad4C[0x10];
     OutPos *field_5C;
     u8 _pad60[0x48];
@@ -91,6 +92,28 @@ void func_0003B4D0();
 void func_0003B6A0();
 void func_0003BB30();
 void func_0001BD80();
+void func_0001DFB0();
+typedef struct OutLvl { s32 field_0; s32 field_4; } OutLvl;
+extern OutLvl D_000C3108[];
+s32 func_0002AC90();
+extern s32 D_000BF4EC;
+void func_0002AB60();
+void func_0005D580();
+int func_0002A3C0();
+void func_0003B1B0();
+void func_0004C163();
+void func_0004C0F7();
+#pragma aux func_0004C0F7 parm [eax] [edx] [ecx]
+extern char D_000C300C[];
+extern char D_000BEAE4[];
+extern s32 D_000BEAF8[];
+extern s32 D_000BEA50[];
+extern s32 D_000CFFF0[];
+extern s32 D_000BEAF4;
+extern s32 D_000D0004;
+extern s32 D_000D0000;
+extern s32 D_000BEAF0;
+extern s32 D_000BEA74;
 void func_0004EB90();
 void func_0004E990();
 extern s32 D_000BE3C4;

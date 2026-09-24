@@ -1,6 +1,15 @@
 /* netipx.c: 102 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 #include "netipx.h"
+/* decls */
+extern int D_000CD960[];
+void func_0005D450(IpxBldg *);
+void func_0001A6A0(int, int, int);
+void func_0001A060(IpxTag *, u32, int);
+void func_0004EA70();
+void func_0004C163(void *, int, int, char *, int, int);
+extern char D_000D03E0[];
+extern char D_000D0220[];
 extern char D_000D07E0[];
 extern int D_000C2120;
 extern int D_000BDB94;
@@ -75,7 +84,11 @@ void func_0004CDA0(void) { func_00070400(D_000D0768); }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004CDC0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004CDE0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0004CE20);
+void func_0004CE20(void)
+{
+    func_0004C163(D_000D03E0, 0, 0x380, D_000C2108, 0x1C8, 4);
+    func_0004C163(D_000D0220, 0, 0x1C0, D_000C2108, 0x1C9, 4);
+}
 void func_0004CE70(int a)
 {
     char buf[8];
@@ -163,7 +176,27 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_0004E6E6);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004E710);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004E7D0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004E920);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0004E990);
+void func_0004E990(IpxBldg *u)
+{
+    IpxStat *t;
+    if (u->field_C->field_C == 0xCA00000E)
+        func_0005D450(u);
+    if (u->field_14) {
+        t = u->field_18;
+        if (t->field_10 / 3 > u->field_94 && t->field_40 != -1)
+            func_0001A6A0(u->field_5C, t->field_40, D_000CD960[u->field_80]);
+        else
+            func_0001A6A0(u->field_5C, u->field_18->field_3C, D_000CD960[u->field_80]);
+    } else {
+        func_0001A6A0(u->field_5C, u->field_18->field_3C, D_000CD960[u->field_80]);
+        u->field_40 = func_0004EA70;
+    }
+    if (u->field_130 > 0)
+        u->field_130--;
+    else
+        u->field_130 = 0;
+    func_0001A060(u->field_C, 0x80000000, 1);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004EA70);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004EB10);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004EB90);

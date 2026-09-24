@@ -1,5 +1,10 @@
 /* lib/libs.c: 1707 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
+/* decls */
+typedef struct { u8 _pad[0x40]; void (*field_40)(); } LTask;
+void func_000751C0();
+void func_000754B0();
+void func_0001A060(LTask *, u32, int);
 void func_0004DEC7();
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000710B5);
@@ -129,10 +134,18 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_00074F42);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00074F70);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00075050);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000750A0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00075190);
+void func_00075190(LTask *a)
+{
+    a->field_40 = func_000751C0;
+    func_0001A060(a, 0x80000000, 0x3C);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000751C0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00075280);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00075480);
+void func_00075480(LTask *a)
+{
+    a->field_40 = func_000754B0;
+    func_0001A060(a, 0x80000000, 0x3C);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000754B0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000756D0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00075AE3);

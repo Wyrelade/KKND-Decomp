@@ -15,4 +15,9 @@ void func_00068320(char *fmt, ...);
 void func_00083093(void);
 #pragma aux func_00083093 modify [eax ebx ecx edx];
 
+/* One palette entry as the VBE palette call wants it (B, G, R, pad). */
+typedef struct VesaRgbx {
+    u8 c[4];
+} VesaRgbx;
+
 #endif

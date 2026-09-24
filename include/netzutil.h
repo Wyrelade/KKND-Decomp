@@ -32,4 +32,34 @@ typedef struct NetzGame {
     NetzPlayer *field_24;
 } NetzGame;
 
+typedef struct NzPeer {
+    u8 _pad0[8];
+    s32 field_8;
+} NzPeer;
+
+typedef struct NzPlayerFlags {
+    u8 field_0;
+    u8 _pad1[7];
+} NzPlayerFlags;
+
+/* Watcom REGS (32-bit view) / SREGS for int386x */
+typedef struct NzRegs {
+    s32 eax;
+    s32 ebx;
+    s32 ecx;
+    s32 edx;
+    s32 esi;
+    s32 edi;
+    s32 cflag;
+} NzRegs;
+
+typedef struct NzSregs {
+    u16 es;
+    u16 cs;
+    u16 ss;
+    u16 ds;
+    u16 fs;
+    u16 gs;
+} NzSregs;
+
 #endif

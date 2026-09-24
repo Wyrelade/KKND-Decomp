@@ -16,6 +16,8 @@ typedef struct UncDef {
 typedef struct UncFlags {
     u8 _pad0[0xb];
     u8 fb;
+    u8 _padc[0xc];
+    s32 f18;
 } UncFlags;
 
 typedef struct UncPos {
@@ -75,5 +77,15 @@ typedef struct UncGrid {
     s32 f10;
     UncGridOwner *f14;
 } UncGrid;
+
+typedef struct UncTgt {
+    u8 _pad0[0x6c];
+    s32 f6c;
+} UncTgt;
+
+typedef struct UncCtl {
+    u8 _pad0[8];
+    UncFlags *f8;
+} UncCtl;
 
 #endif

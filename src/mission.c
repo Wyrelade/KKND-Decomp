@@ -2,6 +2,14 @@
 #include "common.h"
 #include "mission.h"
 /* decls */
+extern s32 D_000BF620;
+extern s32 D_000BDA4C;
+extern s32 D_000BDA50;
+extern s32 D_000CDE64[];
+extern s32 D_000CDE48[];
+void func_0004F710();
+int func_0004F640();
+extern MsNode D_000CDE94;
 typedef struct { u8 _pad[0x10]; s32 field_10; s32 field_14; u8 _pad2[0x70]; s32 field_88; } MsnObj;
 typedef struct { u8 _pad[0x38]; MsnObj *field_38; } MsnState;
 extern s32 D_000BE7C8;
@@ -12,14 +20,43 @@ void func_0002FB80(void *);
 void func_0004B600(void *, int, int, int);
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00030E00);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00031230);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00031270);
+MsNode *func_00031230(s32 x, s32 y)
+{
+    MsNode *n;
+    for (n = D_000CDE94.next; n != &D_000CDE94; n = n->next)
+        if (n->f90 == 0 && y == n->f14 && x == n->f10) return n;
+    return 0;
+}
+int func_00031270(s32 x, s32 y)
+{
+    MsNode *n;
+    int r = 0;
+    for (n = D_000CDE94.next; n != &D_000CDE94; n = n->next) {
+        if (n->f90 == 0 && y == n->f14 && x == n->f10) {
+            if (func_0004F640(n) == 0) return 2;
+            r = 1;
+        }
+    }
+    return r;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000312D0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00031500);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00031560);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000315F0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00031660);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00031740);
+void func_00031740(MsBld *u, s32 p)
+{
+    MsCol *c;
+    s32 k;
+    if (p == D_000BF620) D_000BDA4C++;
+    else D_000BDA50++;
+    u->f14 = p;
+    c = u->f5c->f68;
+    k = D_000CDE64[p];
+    c->f30 = D_000CDE48[k];
+    if (u->f1c != 0) u->f1c->f4->f68->f30 = D_000CDE48[D_000CDE64[p]];
+    func_0004F710(u);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000317B0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00031870);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00031A00);

@@ -1,6 +1,20 @@
 /* main.c: 14 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 /* decls */
+void func_0001470D(int line, char *file);
+#pragma aux func_0001470D parm routine [] modify [eax ebx ecx edx];
+void func_00014D18(int line, char *file);
+#pragma aux func_00014D18 parm routine [] modify [eax ebx ecx edx];
+void func_00014D9B(char *, char *, ...);
+#pragma aux func_00014D9B modify [eax ebx ecx edx];
+int func_00014976(char *a, char *b);
+int func_00014A0C(void *buf, int size, int n, int fh);
+void func_00014BD6(int fh);
+extern char D_000B98D0[];
+extern char D_000B0010[];
+extern char D_000B0014[];
+extern char D_000B0020[];
+extern char D_000CC44C[];
 #include "main.h"
 extern MainGlobal *D_000B98D8;
 void func_00010010(int);
@@ -53,6 +67,21 @@ void func_00010EE0(int a, MainRect *r)
 }
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00010F10);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00011000);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00011180);
+int func_00011180(void)
+{
+    u8 drive;
+    int fh;
+    func_0001470D(0xa1, D_000B98D0);
+    fh = func_00014976(D_000B0014, D_000B0010);
+    if (fh == 0)
+        return 0;
+    func_0001470D(0xa4, D_000B98D0);
+    func_00014A0C(&drive, 1, 1, fh);
+    func_0001470D(0xa5, D_000B98D0);
+    func_00014BD6(fh);
+    func_00014D18(0xa6, D_000B98D0);
+    func_00014D9B(D_000CC44C, D_000B0020, drive);
+    return 1;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00011220);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00011290);

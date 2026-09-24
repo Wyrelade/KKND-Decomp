@@ -1,6 +1,7 @@
 /* misc.c: 20 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 /* decls */
+void func_00028770(int);
 #include "misc.h"
 void func_0004B670();
 void func_00028790(int);
@@ -33,7 +34,17 @@ int func_000120A0(char *s)
 }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000120D0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00012140);
+void func_00012140(void)
+{
+    int i;
+    for (i = 0; i < 0xC4; i++) {
+        if (i != 0x54 && i != 6 && i != 0x4b && i != 0x4d && i != 0x4e && i != 9 && i != 0x4f
+            && i != 0x50 && i != 0x55 && i != 0x7a && i != 0x51 && i != 0x49)
+            func_00028770(i);
+        else if (i != 0x54)
+            func_00028790(i);
+    }
+}
 void func_000121B0(void)
 {
     int i;

@@ -42,7 +42,9 @@ typedef struct FmvView {
 typedef struct FmvNode {
     struct FmvNode *next;
     struct FmvNode *prev;
-    u8 _pad8[0x24];
+    u8 _pad8[0x3];
+    u8 field_B;                  /* bit 7: marked for removal */
+    u8 _padC[0x20];
     s32 key;
 } FmvNode;
 
