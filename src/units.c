@@ -3,6 +3,9 @@
 #include "units.h"
 #include "entity.h"
 /* decls */
+void func_0001DE10();
+void func_0001A5B0();
+void func_0001A060();
 void func_0001EBB0(EntityState *);
 void func_0005FC70();
 void func_0004CDC0();
@@ -63,7 +66,12 @@ void func_0001EBB0(EntityState *state)
     func_00019F90(s->f0);
     func_00019FD0(s->f8->fc);
 }
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001EBE0);
+void func_0001EBE0(UnS *s)
+{
+    func_0001DE10(&s->f14, s->f8->f80, s->f28->f8);
+    func_0001A5B0(s->f4, s->f28->f18, D_000CD960[s->f14]);
+    func_0001A060(s->f0, 0xc0000000, 2);
+}
 void func_0001EC30(UnS *s)
 {
     func_0001A6A0(s->f4, s->f28->f18, D_000CD960[s->f14]);

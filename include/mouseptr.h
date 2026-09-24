@@ -17,4 +17,24 @@ typedef struct MpNode {
     s32 field_8;
 } MpNode;
 
+/* Object whose 0x10 field is temporarily overridden around func_000516D0. */
+typedef struct MpSprite {
+    u8 _pad0[0x10];
+    s32 field_10;
+} MpSprite;
+
+/* Handler block hanging off a pointer mob (field_68). */
+typedef struct MpHandler {
+    u8 _pad0[0x10];
+    void (*field_10)();
+} MpHandler;
+
+/* Mob created by func_0001AB70 for the pointer slots. */
+typedef struct MpMob {
+    u8 _pad0[0x18];
+    s32 field_18;
+    u8 _pad1C[0x4C];
+    MpHandler *field_68;
+} MpMob;
+
 #endif

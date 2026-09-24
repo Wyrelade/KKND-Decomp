@@ -1,5 +1,6 @@
 /* projectl.c: 18 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
+#include "projectl.h"
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00056440);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00056720);

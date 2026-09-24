@@ -2,6 +2,8 @@
 #include "common.h"
 #include "uncover.h"
 /* decls */
+extern UncPos *D_000D0E48;
+extern s32 D_000D0DF8;
 extern s32 D_000D1330;
 void func_0004DEC7();
 void func_0001CCC0();
@@ -21,7 +23,15 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_000503A0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00050680);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00050C30);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00050D30);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00050DB0);
+void func_00050DB0(s32 a, s32 b)
+{
+    UncPos *p = D_000D0E48;
+    s32 x = D_000D0DF8;
+    p->f88 = 1;
+    p->f14 = b << 8;
+    p->f88 = 1;
+    p->f10 = (a - (x + 4)) << 8;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00050DF0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00050E20);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00050E50);
@@ -84,7 +94,17 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_00052140);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000521B0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00052290);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00052340);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00052390);
+void func_00052390(UncGrid *g)
+{
+    UncGridNode *n;
+    s32 x = 0, y = 0;
+    for (n = g->f8; n != 0; n = n->next) {
+        if (y > 0 && y < g->f10 - 1 && x > 0 && x < g->fc - 1)
+            n->f4->f18 = g->f14->f84->fc;
+        x++;
+        if (x >= g->fc) { y++; x = 0; }
+    }
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000523F0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00052470);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00052640);

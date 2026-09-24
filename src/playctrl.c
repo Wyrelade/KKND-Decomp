@@ -1,5 +1,6 @@
 /* playctrl.c: 35 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
+#include "playctrl.h"
 /* decls */
 extern s32 D_000BE7CC;
 void func_0002F8E0();

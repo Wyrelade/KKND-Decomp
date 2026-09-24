@@ -1,6 +1,8 @@
 /* netzutil.c: 35 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 #include "netzutil.h"
+/* decls */
+extern int *D_000CC7A0;
 extern NetzGame *D_000CFB3C;
 extern NetzEvent *D_000BDF7C;
 extern NetzPacket *D_000BDF74;
@@ -12,7 +14,7 @@ int func_000299A0(NetzEvent *);
 void func_00050DF0(void);
 void func_0004B670(int, int, int, int);
 int func_000267D0(void);
-int func_0002A070(void);
+NetzPlayer *func_0002A070(void);
 void NETZ_Hangup(int);
 int func_00029EC0(int);
 
@@ -66,7 +68,13 @@ INCLUDE_ASM("asm/DOS/nonmatchings", NETZ_OpenLink);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00029FB0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00029FF0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002A020);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002A070);
+NetzPlayer *func_0002A070(void)
+{
+    NetzPlayer *p = D_000CFB3C->field_24;
+    if (D_000CC7A0[p->field_C] + 0x7BC == p->field_4C)
+        return 0;
+    return p;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002A0A0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002A120);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002A190);

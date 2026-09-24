@@ -1,5 +1,6 @@
 /* crtgen.c: 26 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
+#include "crtgen.h"
 /* decls */
 extern char D_000BDF18[];
 void func_000287B0();

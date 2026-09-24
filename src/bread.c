@@ -1,5 +1,6 @@
 /* bread.c: 75 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
+#include "bread.h"
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00052AE0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00052B20);

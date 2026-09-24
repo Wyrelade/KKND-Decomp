@@ -1,6 +1,8 @@
 /* misc.c: 20 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 /* decls */
+#include "misc.h"
+void func_0004B670();
 void func_00028790(int);
 int func_0004BFD7(int);
 void func_00027D7B(int);
@@ -40,7 +42,12 @@ void func_000121B0(void)
 }
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000121E0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00012240);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_000122A0);
+int func_000122A0(MiscObj *a, MiscObj *b, int c, int d, int e)
+{
+    if (a->field_6C)
+        func_0004B670(0, -2, b->field_6C, a->field_6C);
+    return 0;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000122D0);
 /* Busy-wait until func_0004BFD7(0) changes (tick / vsync counter). */
 void func_00012390(void)

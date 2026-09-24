@@ -1,5 +1,8 @@
 /* main.c: 14 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
+/* decls */
+#include "main.h"
+extern MainGlobal *D_000B98D8;
 void func_00010010(int);
 void func_0001A410(void);
 void func_0001A720(void);
@@ -41,7 +44,13 @@ void func_00010DD0(void)
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00010E20);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00010EB0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00010EE0);
+void func_00010EE0(int a, MainRect *r)
+{
+    MainGlobal *g = D_000B98D8;
+    r->field_24 = g->field_8->field_24;
+    r->field_28 = g->field_8->field_28;
+    r->field_2C = 0xfffff;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00010F10);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00011000);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00011180);

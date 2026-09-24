@@ -1,6 +1,11 @@
 /* mouseptr.c: 37 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 #include "mouseptr.h"
+/* decls */
+MpMob *func_0001AB70(int a, int b, int c);
+void func_00019A70();
+void func_000516D0(MpSprite *s);
+void func_0001AA80(void *p);
 extern MpNode D_000CC610;
 extern void *D_000CC630;
 extern char D_000BD5BC[];
@@ -16,10 +21,33 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_00015DC0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00016380);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00016990);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00016CB0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00016D30);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00016D50);
+void func_00016D30(void **a)
+{
+    void **e = a + 20;
+    do {
+        func_0001AA80(*a++);
+    } while (a != e);
+}
+void func_00016D50(MpMob **a)
+{
+    MpMob **e = a + 20;
+    do {
+        *a = func_0001AB70(0x11, 0, 0);
+        if (*a != 0) {
+            (*a)->field_18 = 1;
+            (*a)->field_68->field_10 = func_00019A70;
+        }
+        a++;
+    } while (a != e);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00016DA0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00016F60);
+void func_00016F60(MpSprite *s)
+{
+    s32 old = s->field_10;
+    s->field_10 = (old != 0x28) + 0x3a;
+    func_000516D0(s);
+    s->field_10 = old;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00016F90);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00017020);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00017120);

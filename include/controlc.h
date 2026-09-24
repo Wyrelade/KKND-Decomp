@@ -49,4 +49,16 @@ typedef struct CcEntity {
     CcState *state;
 } CcEntity;
 
+typedef struct CcTask {
+    u8 _pad0[0x10];
+    int (*field_10)(struct CcTask *);
+    u8 _pad14[4];
+    s32 field_18;
+} CcTask;
+
+typedef struct CcTaskEnt {
+    u8 _pad0[0x3C];
+    CcTask *state;
+} CcTaskEnt;
+
 #endif

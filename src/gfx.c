@@ -1,6 +1,8 @@
 /* gfx.c: 26 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
 #include "vesa.h"
+/* decls */
+#include "gfx.h"
 void func_0004DEC7();
 extern s32 D_000CF184;
 extern s32 D_000CF1B8;
@@ -75,8 +77,18 @@ void func_00027DB0(void)
     func_00027124();
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00027DD0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00027DF0);
+int func_00027DD0(GfxDriver *d)
+{
+    if (d->field_4)
+        return d->field_4->field_0(d, 2);
+    return 0;
+}
+int func_00027DF0(GfxDriver *d)
+{
+    if (d->field_4)
+        return d->field_4->field_0(d, 1);
+    return 0;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00027E10);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00027E90);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00027EC0);

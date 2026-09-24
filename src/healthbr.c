@@ -1,6 +1,11 @@
 /* healthbr.c: 48 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
+#include "healthbr.h"
 /* decls */
+extern s32 D_000D1D4C;
+void func_00062430();
+void func_0005D220();
+HbSprite *func_00020870();
 extern s32 D_000D1ED0;
 extern s32 D_000BDBAC;
 extern char D_000B76DC[];
@@ -22,7 +27,17 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_0005CC70);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005CE50);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005CEF0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005CF90);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0005D010);
+void func_0005D010(HbUnit *u)
+{
+    HbSprite *s;
+    u->f28c = 0;
+    u->f288 = func_00062430;
+    u->f290 = D_000D1D4C;
+    s = func_00020870(u->f5c, func_0005D220);
+    u->f294 = s;
+    s->fc = u;
+    u->f294->fb |= 0x40;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005D060);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005D0F0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0005D150);

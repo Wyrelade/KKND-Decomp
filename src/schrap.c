@@ -1,5 +1,6 @@
 /* schrap.c: 13 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
+#include "schrap.h"
 /* decls */
 extern s32 D_000C3DF8;
 extern s32 D_000C3DF4;

@@ -1,5 +1,6 @@
 /* mission.c: 24 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
+#include "mission.h"
 /* decls */
 typedef struct { u8 _pad[0x10]; s32 field_10; s32 field_14; u8 _pad2[0x70]; s32 field_88; } MsnObj;
 typedef struct { u8 _pad[0x38]; MsnObj *field_38; } MsnState;

@@ -45,8 +45,24 @@ Mob *func_0001A9C0(s32 id)
     return 0;
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001A9F0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001AA20);
+void func_0001A9F0(Mob *a, Mob *b)
+{
+    b->field_4->field_0 = b->field_0;
+    b->field_0->field_4 = b->field_4;
+    b->field_4 = a;
+    b->field_0 = a->field_0;
+    a->field_0->field_4 = b;
+    a->field_0 = b;
+}
+void func_0001AA20(Mob *a, Mob *b)
+{
+    b->field_4->field_0 = b->field_0;
+    b->field_0->field_4 = b->field_4;
+    b->field_0 = a;
+    b->field_4 = a->field_4;
+    a->field_4->field_0 = b;
+    a->field_4 = b;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001AA50);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001AA80);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001AAF0);

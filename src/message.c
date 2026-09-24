@@ -19,7 +19,15 @@ void func_0004B5C0(MsgNode *n)
     n->next = t;
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0004B5E0);
+MsgNode *func_0004B5E0(MsgPool *p)
+{
+    MsgNode *n = p->field_30;
+    if (n) {
+        p->field_30 = n->next;
+        n->next = 0;
+    }
+    return n;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004B600);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004B670);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0004B720);

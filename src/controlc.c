@@ -68,7 +68,15 @@ void func_0006BD40(CcState *s)
     s->field_0 = func_0006BD70;
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0006BD70);
+void func_0006BD70(CcState *s)
+{
+    if (s->field_4 > 0) {
+        s->field_C->field_5C = D_000C3364;
+        s->field_C->field_68->field_B &= ~0x40;
+        s->field_0 = func_0006BCC0;
+        func_0006BCC0(s);
+    }
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0006BD9F);
 void func_0006BDF0(CcEntity *e, int arg1, int msg)
 {
@@ -98,7 +106,14 @@ void func_0006C280(CcState *s)
 }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0006C2B0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0006C330);
+int func_0006C330(CcTaskEnt *e)
+{
+    CcTask *s = e->state;
+    int r = s->field_10(s);
+    if (s->field_18)
+        s->field_18--;
+    return r;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0006C360);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0006C3E0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0006C420);
