@@ -19,7 +19,8 @@ typedef struct OutData {
     u8 _pad0[0x4];
     s32 field_4;
     s32 field_8;
-    u8 _padC[0x4];
+    s16 field_C;
+    u8 _padE[0x2];
     s32 field_10;
 } OutData;
 typedef struct OutState {
@@ -66,7 +67,7 @@ void func_0003B660();
 void func_0003B510();
 void func_0003AE80();
 void func_000514C0();
-void func_0002A8E0();
+int func_0002A8E0();
 extern s32 D_000BF620;
 typedef struct OutOwner { u8 _pad0[0x8]; OutCtl *field_8; } OutOwner;
 typedef struct OutTask {
@@ -101,7 +102,9 @@ void func_0002AB60();
 void func_0005D580();
 int func_0002A3C0();
 void func_0003B1B0();
-void func_0004C163();
+int func_0004C163();
+typedef struct OutReq { s32 field_0; s32 field_4; s32 field_8; } OutReq;
+extern OutReq D_000BEB20[];
 void func_0004C0F7();
 #pragma aux func_0004C0F7 parm [eax] [edx] [ecx]
 extern char D_000C300C[];

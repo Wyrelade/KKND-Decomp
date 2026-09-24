@@ -4,6 +4,40 @@ Notes on the Watcom C 32-bit toolchain (`wcc386 -s -of+ -5r -omilert -zm -zp1`, 
 convention) used by this project. Each entry was verified against real target machine code.
 Append new entries at the top. Search with `python tools/learn.py <terms>`.
 
+## Session 2 agent batch: source tricks that fixed register choice and order (agents B, C, D).
+
+Found 2026-09-24 (session 2), with the patched compiler. Problem -> symptom -> fix:
+- Trace helper `func_00014D18(int line, char *file)`: stack args pushed in the wrong order still
+  pass `match.py` (both immediates are under relocation masks). Only the build catches it. Needs
+  `#pragma aux func_00014D18 parm routine [] modify [eax ebx ecx edx]`; sprintf helper
+  `func_00014D9B` needs `modify [eax ebx ecx edx]`.
+- Retail sets EBX/ECX for a later call before an earlier call: `#pragma aux <earlier callee>
+  modify exact [eax]` in the caller's file (func_0004F670, func_00030C60).
+- Global read then reused: load it into a local first; declaration order picks the load order
+  (func_00050DB0). Load into a local before an intervening store also fixes some `fold` misses
+  (func_0005E9C0, func_00070C30), not when the value is used at once (`inc [mem]`, `sub r,[mem]`).
+- Two registers holding one pointer: two C variables, `T *e = f(); T *ev = e;` (func_0005E9C0).
+- A store retail emits after the argument setup: comma expression in the first argument,
+  `f((s->x = 0xFF, s), ...)` (func_0002CC20).
+- Shared exit: assign the result in if/else and return once; an early `return 0` flips branch
+  order. An OR chain of `==` comes out inverted: write an AND chain of `!=` with an else.
+- `if ((r = f()) == 0 && (r = g()) == 0) return r; return 1;` for "return the zero result".
+- An address constant passed as a call argument goes through a register in retail: assign it to a
+  local just before the call.
+- Inlined lookup: a local `u32 i` with if/else matches where a ternary does not (func_000264E0).
+- Volatile spills: declaration order picks the stack slot, statement order the store order.
+- Inline pragmas with Watcom 10 encodings for strlen (`29 c9`/`31 c0`) and port I/O
+  (`include/serial.h`, func_0005E1D0/5E200).
+- Open (compiler): compare-only temps avoid EAX in retail (EDX/EBX/ECX; func_0004E7D0 2 bytes,
+  func_000585C0); binary-search switches use signed compares when a case is negative
+  (func_0002F970); retail never does read-modify-write with a register operand on a stack slot
+  (`inc [ebp-x]`); func_00029940 matches only with `KKND_ECXFIRST=1`, so allocation priority, not
+  only the table order, differs. A global register-order change (KKND_REGORDER experiment) lost
+  57-150 matches for every order tried; keep EAX,EDX,EBX,ECX,ESI,EDI.
+- Frameless 16-aligned functions (func_0004D920, func_0004DA90, func_00014980, atoi/strcmp copies
+  func_0004B510/func_0004B270) share files with framed ones: needs per-function flags in the build.
+- Near-miss attempts (<= 40 bytes) are kept in `doc/nearmiss/<func>.c` to score compiler patches.
+
 ## `rp` and `mul` are compiler differences, now patched: EBX before ECX, shift/add multiplies (session 2).
 
 Found 2026-09-24 (session 2). Problem: the two biggest near-miss classes from the agents. Symptom:

@@ -7,9 +7,9 @@
 > `python tools/update_readme_progress.py --sync` (recounts from `src/`, rewrites these two
 > lines, regenerates the README badge and progress table) and include both files in the commit.
 
-**Main exe functions identified: 3713 · matched: 484 (13.04%)**  ·  updated 2026-09-24
+**Main exe functions identified: 3713 · matched: 492 (13.25%)**  ·  updated 2026-09-24
 
-**Game code: 481/2006 · Libraries: 3/1707**
+**Game code: 489/2006 · Libraries: 3/1707**
 
 ## Phase 0 Bring-up
 
@@ -55,3 +55,15 @@ the table at the start of the function's own segment). Four parallel agents matc
 group (A units, B engine, C network/UI, D gameplay); their notes are in `doc/agent_notes/`, to be
 merged into the journal. Known blockers: Open Watcom jump threading / loop layout (`jt`) and the
 missing `cs:` prefix on switch jumps (patched compiler in progress, PLAN 1.7).
+
+### 2026-09-24 — session 2 (327 -> 492)
+
+Merged the agent notes (and made `-ot` global), then made the patched Open Watcom `wcc386` the
+default toolchain (`doc/compiler_patch.md`): switch jump tables via `cs:`, Watcom 10 switch costs
+and pure binary search, no loop/table padding, no loop-entry jump threading, bottom-test loop
+entry, EBX before ECX, shift/add constant multiplies. func_000121B0, func_00053700 (`jt`),
+func_000323B0, func_0001CDC4 (switch) and the `rp` probe func_0002E940 now match as plain C.
+Applied 55 real names from `name_evidence.csv`. Four agents then two second-pass agents matched
+by module group. Matched **327 -> 492** (+165), build `OK`. Short of the +250 target: the
+remaining functions are dominated by `ci` and `fold` compiler differences (next patches).
+

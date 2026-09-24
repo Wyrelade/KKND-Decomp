@@ -44,6 +44,88 @@ index 5b346d0e..6b6571c0 100644
              success = false;   /* let the optimizer do it later on*/
              edge->next_source = blk->input_edges;
              blk->input_edges = edge;
+diff --git a/bld/cg/c/cachecon.c b/bld/cg/c/cachecon.c
+index e54b1d0d..ca9f15fe 100644
+--- a/bld/cg/c/cachecon.c
++++ b/bld/cg/c/cachecon.c
+@@ -32,6 +32,8 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
++#include <stdio.h>
+ #include "coderep.h"
+ #include "stackcg.h"
+ #include "makeins.h"
+@@ -197,6 +199,68 @@ void    ConstToTemp( block *pre, block *head, block*(*next)(block*) )
+     }
+ }
+ 
++static  name    *KKNDTemps[64];
++static  int     KKNDNumTemps;
++
++bool    KKNDIsGlobalConstTemp( name *op )
++{
++    int     i;
++
++    for( i = 0; i < KKNDNumTemps; ++i ) {
++        if( KKNDTemps[i] == op ) {
++            return( true );
++        }
++    }
++    return( false );
++}
++
++
++void    KKNDConstToTempFunc( void )
++/**********************************
++    KKND experiment: Watcom 10.x stored constants to global (N_MEMORY) variables through a
++    register: mov ebx,1; xor edx,edx; mov [A],ebx; mov [B],edx. Struct-field stores keep the
++    immediate. Cache every constant that is moved into a global in a temp, for those moves only.
++*/
++{
++    name                *cons;
++    name                *temp;
++    block               *blk;
++    instruction         *ins;
++
++    KKNDNumTemps = 0;
++    for( cons = Names[N_CONSTANT]; cons != NULL; cons = cons->n.next_name ) {
++        if( cons->c.const_type != CONS_ABSOLUTE )
++            continue;
++        temp = NULL;
++        for( blk = HeadBlock; blk != NULL; blk = blk->next_block ) {
++            for( ins = blk->ins.head.next; ins->head.opcode != OP_BLOCK; ins = ins->head.next ) {
++                if( ins->head.opcode != OP_MOV || ins->operands[0] != cons )
++                    continue;
++                if( getenv( "KKND_DEBUG" ) != NULL )
++                    fprintf( stderr, "KKND mov const %ld class %d resclass %d\n", (long)cons->c.lo.u.int_value, ins->type_class, ins->result->n.class );
++                if( ins->result->n.class != N_MEMORY )
++                    continue;
++                if( ins->type_class != WD && ins->type_class != SW
++                  && ins->type_class != U4 && ins->type_class != I4 )
++                    continue;
++                if( temp == NULL ) {
++                    temp = AllocTemp( ins->type_class );
++                    temp->t.temp_flags |= CONST_TEMP;
++                    temp->v.symbol = cons;
++                    temp->v.usage |= USE_IN_ANOTHER_BLOCK;
++                    if( KKNDNumTemps < 64 )
++                        KKNDTemps[KKNDNumTemps++] = temp;
++                    PrefixIns( HeadBlock->ins.head.next, MakeMove( cons, temp, ins->type_class ) );
++                }
++                if( ins->type_class == temp->n.type_class ) {
++                    ins->operands[0] = temp;
++                }
++            }
++        }
++    }
++}
++
++
+ void            MemConstTemp( conflict_node *conf )
+ /**************************************************
+ 
 diff --git a/bld/cg/c/cse.c b/bld/cg/c/cse.c
 index 721fa0c6..bcb4e28a 100644
 --- a/bld/cg/c/cse.c
@@ -65,6 +147,30 @@ index 721fa0c6..bcb4e28a 100644
              change = true;
              loops_killed = true;
              CleanPartition();
+diff --git a/bld/cg/c/generate.c b/bld/cg/c/generate.c
+index a7f606be..27aed084 100644
+--- a/bld/cg/c/generate.c
++++ b/bld/cg/c/generate.c
+@@ -31,6 +31,7 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
+ #include "coderep.h"
+ #include "memcheck.h"
+ #include "data.h"
+@@ -722,6 +723,11 @@ void    Generate( bool routine_done )
+         Panic( false );
+         return;
+     }
++    if( getenv( "KKND_CONSTREG" ) != NULL ) {
++        extern void KKNDConstToTempFunc( void );
++        KKNDConstToTempFunc();
++        FindReferences();
++    }
+     MakeConflicts();
+     if( _IsModel( CGSW_GEN_LOOP_OPTIMIZATION ) ) {
+         SplitVars();
 diff --git a/bld/cg/c/loopopts.c b/bld/cg/c/loopopts.c
 index 9a812700..df76f781 100644
 --- a/bld/cg/c/loopopts.c
@@ -150,8 +256,80 @@ index 76c9e5da..abc589fa 100644
      test = num >> 1;
      do {
          pow2 = 1;
+diff --git a/bld/cg/c/regalloc.c b/bld/cg/c/regalloc.c
+index 90c18577..57b16375 100644
+--- a/bld/cg/c/regalloc.c
++++ b/bld/cg/c/regalloc.c
+@@ -31,6 +31,8 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
++#include <stdio.h>
+ #include "coderep.h"
+ #include "zoiks.h"
+ #include "data.h"
+@@ -922,6 +924,8 @@ static  void    NeighboursUse( conflict_node *conf )
+ }
+ 
+ 
++extern bool KKNDIsGlobalConstTemp( name * );
++
+ static hw_reg_set   GiveBestReg( conflict_node *conf, reg_tree *tree,
+                                      hw_reg_set except, bool needs_one )
+ /*************************************************************************
+@@ -986,6 +990,9 @@ static hw_reg_set   GiveBestReg( conflict_node *conf, reg_tree *tree,
+         all_true = true;
+         for( possible = tree->regs; !HW_CEqual( *possible, HW_EMPTY ); ++possible ) {
+             reg = *possible;
++            if( conf->name->n.class == N_TEMP && (conf->name->t.temp_flags & CONST_TEMP)
++              && HW_COvlap( reg, HW_EAX ) && KKNDIsGlobalConstTemp( conf->name ) )
++                continue;   /* KKND experiment: Watcom 10.x never put a cached constant in EAX */
+             if( !HW_Ovlap( reg, conf->with.regs )
+               && !HW_Ovlap( reg, except ) ) {
+                 greed = TooGreedy( conf, reg, tree->temp );
+@@ -1207,6 +1214,20 @@ static  void    SortConflicts( void )
+     Sort the conflicts in order of descending savings.
+ */
+ {
++    if( getenv( "KKND_CONFREV" ) != NULL ) {
++        /* KKND experiment: reverse the order of conflicts with equal savings */
++        conflict_node   *conf;
++        conflict_node   *next;
++        conflict_node   *rev;
++
++        rev = NULL;
++        for( conf = ConfList; conf != NULL; conf = next ) {
++            next = conf->next_conflict;
++            conf->next_conflict = rev;
++            rev = conf;
++        }
++        ConfList = rev;
++    }
+     ConfList = SortList( ConfList, offsetof( conflict_node, next_conflict ), ConfBefore );
+ }
+ 
+@@ -1242,6 +1263,18 @@ static  enum allocation_state    AssignConflicts( void )
+         }
+     }
+     ConstSavings();
++    for( conf = ConfList; conf != NULL; conf = conf->next_conflict ) {
++        /* KKND: a cached global-store constant always wants a register */
++        if( conf->savings == 0 && conf->start_block != NULL && conf->name->n.class == N_TEMP
++          && KKNDIsGlobalConstTemp( conf->name ) ) {
++            conf->savings = 1;
++        }
++        if( getenv( "KKND_DEBUG" ) != NULL && conf->name->n.class == N_TEMP ) {
++            fprintf( stderr, "KKND conf temp %p mine %d savings %ld const %d\n", (void *)conf->name,
++                KKNDIsGlobalConstTemp( conf->name ), (long)conf->savings,
++                (conf->name->t.temp_flags & CONST_TEMP) != 0 );
++        }
++    }
+ 
+     SortConflicts();
+     state = ALLOC_BITS;
 diff --git a/bld/cg/intel/386/c/386rgtbl.c b/bld/cg/intel/386/c/386rgtbl.c
-index 3ea68d69..b5a02900 100644
+index 3ea68d69..f534ca05 100644
 --- a/bld/cg/intel/386/c/386rgtbl.c
 +++ b/bld/cg/intel/386/c/386rgtbl.c
 @@ -31,6 +31,7 @@
@@ -176,13 +354,29 @@ index 3ea68d69..b5a02900 100644
      HW_D_1( HW_ESI ),
      HW_D_1( HW_EDI ),
      HW_D_1( HW_EBP ),
-@@ -636,6 +637,10 @@ void            InitRegTbl( void )
+@@ -636,6 +637,26 @@ void            InitRegTbl( void )
   * Initialize the tables.
   */
  {
 +    if( getenv( "KKND_ECXFIRST" ) != NULL ) {   /* KKND: stock OW order */
 +        HW_CAsgn( DoubleRegs[2], HW_ECX );
 +        HW_CAsgn( DoubleRegs[3], HW_EBX );
++    }
++    if( getenv( "KKND_REGORDER" ) != NULL ) {
++        /* KKND experiment: KKND_REGORDER=dbcasi (letters a,b,c,d,s,i) sets the first six */
++        const char  *o = getenv( "KKND_REGORDER" );
++        int         k;
++
++        for( k = 0; k < 6 && o[k] != '\0'; ++k ) {
++            switch( o[k] ) {
++            case 'a': HW_CAsgn( DoubleRegs[k], HW_EAX ); break;
++            case 'b': HW_CAsgn( DoubleRegs[k], HW_EBX ); break;
++            case 'c': HW_CAsgn( DoubleRegs[k], HW_ECX ); break;
++            case 'd': HW_CAsgn( DoubleRegs[k], HW_EDX ); break;
++            case 's': HW_CAsgn( DoubleRegs[k], HW_ESI ); break;
++            case 'i': HW_CAsgn( DoubleRegs[k], HW_EDI ); break;
++            }
++        }
 +    }
      if( _FPULevel( FPU_87 ) ) {
          HW_CAsgn( STParmReg[Max87Stk], HW_EMPTY );
@@ -236,6 +430,36 @@ index 37aaf4e8..258b7341 100644
          /* On the Pentium Pro and up, multiply is pretty cheap. */
          cost = 3;
      } else if( _CPULevel( CPU_586 ) ) {
+diff --git a/bld/cg/intel/c/x86regsv.c b/bld/cg/intel/c/x86regsv.c
+index a5a4fdb3..9cb37ab7 100644
+--- a/bld/cg/intel/c/x86regsv.c
++++ b/bld/cg/intel/c/x86regsv.c
+@@ -32,6 +32,7 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
+ #include "coderep.h"
+ #include "data.h"
+ #include "savings.h"
+@@ -93,6 +94,8 @@ void    InitWeights( uint size )
+ }
+ 
+ 
++extern bool KKNDIsGlobalConstTemp( name * );
++
+ bool    WorthProlog( conflict_node *conf, hw_reg_set reg )
+ /*******************************************************************
+     decide if the savings associated with giving conflict "conf"
+@@ -116,6 +119,8 @@ bool    WorthProlog( conflict_node *conf, hw_reg_set reg )
+     }
+     op = conf->name;
+     savings = conf->savings;
++    if( _ConstTemp( op ) && getenv( "KKND_CONSTREG" ) != NULL && KKNDIsGlobalConstTemp( op ) )
++        return( true );
+     if( _ConstTemp( op ) ) {
+         /* adjust for the initial load */
+         cost += Weight( Save.load_cost[type_class] + Save.def_save[type_class], conf->start_block );
 diff --git a/bld/cg/intel/c/x86segs.c b/bld/cg/intel/c/x86segs.c
 index d5bb49a4..e28fa262 100644
 --- a/bld/cg/intel/c/x86segs.c

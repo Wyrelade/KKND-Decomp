@@ -69,3 +69,14 @@ These classes have no source-level fix. See `tools/difficult_functions` for the 
   in ECX vs the stack slot (register allocation around the multiply temp).
 - `ci`: Watcom 10 loads constants into a register before storing them to memory.
 - `fold`: Watcom 10 loads a memory operand into a register before an ALU op.
+
+## Experiments in the patch (off by default)
+
+- `KKND_CONSTREG=1`: cache constants stored to globals in registers, never in EAX
+  (`cachecon.c` `KKNDConstToTempFunc`, `regalloc.c`, `x86regsv.c`). One earlier variant matched
+  func_0004CDC0, but caching every constant cost 182 matches. The global-store-only variant
+  loses no match but the temp is copy-propagated away before allocation. Unfinished.
+- `KKND_REGORDER=adbcsi` sets the 32-bit register order; every order other than the default lost
+  57-150 matches. `KKND_CONFREV=1` (reverse conflict ties) lost 21.
+- The installed `patched/binnt` binary predates these; `patched/next/binnt` has them
+  (`rbn.sh` rebuilds only `next`).

@@ -115,3 +115,8 @@ Masked prefix matching of Open Watcom 1.9 `clib3r.lib` / `math3r.lib` / `math387
 every function (`tools/lib_match.py`) finds only ~8 hits, several spurious: KKND's Watcom 10.0
 runtime differs from Open Watcom's (descended from 11.0c) in almost every routine [C]. Library
 labelling needs the Watcom 10.x libraries themselves, or manual identification by behaviour.
+
+- [H] Sprite position reads go through a macro that first sets a dirty flag: `s->field_88 = 1`
+  before every read of `s->field_10` (x) in func_000750A0 (sprite at `unit->field_5C`); the
+  argument is evaluated twice, so the store repeats inside `ABS()`.
+- [C] func_00014D18 is a debug trace helper taking `(int line, char *file)` on the stack.

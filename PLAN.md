@@ -96,12 +96,16 @@ the existing extractor work (`../_extract/kknd_extract.py`).
 
 ## Next session — start here
 
-1. ~~Merge `doc/agent_notes/` into the journal and `tools/difficult_functions`~~ (done session 2; `-ot` made global).
-2. ~~PLAN 1.7 patched `wcc386`~~ (done session 2, default toolchain).
-3. ~~Apply unambiguous names from `name_evidence.csv`~~ (done session 2: 55 names; 8 ambiguous
-   candidates and names on unaligned VAs left for review).
-4. Continue matching by module with `tools/score_functions.py` (parallel agents per module group
-   worked well: ~230 matches in one run).
+1. Compiler patches (PLAN 1.8) are the lever: the agents stopped because most remaining game
+   functions differ only by `ci` (constants stored through registers), `fold` (memory operand
+   loaded before an ALU op / no read-modify-write with a register operand) and allocation
+   priority. Score each patch against `doc/nearmiss/*.c` and the full build. The `ci`
+   experiment (`KKND_CONSTREG`, only in `D:/programs/re/openwatcom/patched/next`) matched
+   func_0004CDC0 in one variant; see doc/compiler_patch.md.
+2. Per-function cflags in the build (frameless functions in framed files: func_0004D920 ...).
+3. Signed binary-search switches when a case is negative (func_0002F970).
+4. Then relaunch parallel agents per module group (medium/large functions, near-miss corpus).
+5. Review the 8 ambiguous names in `configs/DOS/name_evidence.csv`.
 
 ## Session log
 

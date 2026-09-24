@@ -3,6 +3,9 @@
 #include <conio.h>
 #include "sound.h"
 /* decls */
+extern s32 D_000BB898;
+extern s32 D_000BDA4C;
+extern s32 D_000BB888;
 extern s32 D_000CDD60;
 extern s32 D_000CDD68;
 extern s32 D_000CDD6C;
@@ -247,7 +250,17 @@ int func_0001DC00(int a, SndPos *s)
         return 1;
     return 0;
 }
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DC50);
+int func_0001DC50(void)
+{
+    s32 d;
+    if (D_000BB898 != 0) {
+        if (D_000BDA4C > 200) return 1;
+        return 0;
+    }
+    d = D_000BB888;
+    if (333 / d < D_000BDA4C) return 1;
+    return 0;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DCA0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DE10);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DEE0);

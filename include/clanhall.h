@@ -30,7 +30,7 @@ typedef struct ClanUnit {
     s32 field_94;
 } ClanUnit;
 
-void func_0002A8E0();
+int func_0002A8E0();
 void func_00039EF0();
 int func_0002A3C0();
 void func_0001BD80();
@@ -48,7 +48,7 @@ void func_0005DC00();
 
 typedef struct ClanReq { s32 field_0; s32 field_4; s32 field_8; } ClanReq;
 typedef struct ClanLvl { s32 field_0; s32 field_4; } ClanLvl;
-typedef struct ClanBData { u8 _pad0[0x10]; s32 field_10; } ClanBData;
+typedef struct ClanBData { u8 _pad0[0xC]; s16 field_C; u8 _padE[0x2]; s32 field_10; } ClanBData;
 typedef struct ClanBPos { u8 _pad0[0x70]; s32 field_70; } ClanBPos;
 typedef struct ClanBld {
     u8 _pad0[0x14];
@@ -70,6 +70,14 @@ extern ClanReq D_000BEB5C[];
 extern s32 D_000BEAFC;
 extern char D_000C300C[];
 extern ClanMgr *D_000D0004;
+typedef struct ClanUnitH { u8 _pad0[0xC]; s32 field_C; u8 _pad10[0x4]; s32 field_14; u8 _pad18[0x8]; ClanBData *field_20; } ClanUnitH;
+extern ClanReq D_000BEA78[];
+extern s32 D_000BEA4C;
+extern s32 D_000D0000;
+extern char D_000BEA44[];
+extern s32 D_000BEA50[];
+void func_0004B600();
+int func_0004C163();
 extern s32 D_000BF620;
 extern s32 D_000BE3C4;
 

@@ -2,6 +2,12 @@
 #include "common.h"
 #include "uncover.h"
 /* decls */
+extern UncNode *D_000D1334;
+extern s32 D_000BF620;
+void func_0002A330();
+int func_0001E0E0();
+void func_00039C50();
+void func_00039360();
 extern char D_000C3032[];
 extern char D_000C3050[];
 void func_0001DFB0();
@@ -123,7 +129,28 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_00051C50);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00051CF0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00051E40);
 void func_00051F10(void) { func_0004DEC7(D_000D1330); }
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00051F30);
+void func_00051F30(UncObj *o)
+{
+    s32 t = o->f10;
+    UncNode *n;
+    if (t == 0x2e || t == 0x2f) return;
+    for (n = D_000D1320.next; n != &D_000D1320; n = n->next) {
+        if (t == n->f8 && --n->fc == 0) {
+            n->next->prev = n->prev;
+            n->prev->next = n->next;
+            n->next = D_000D1334;
+            D_000D1334 = n;
+            break;
+        }
+    }
+    n = D_000D1320.next;
+    if (((n != &D_000D1320) != 0) != 0) return;
+    if (o->f14 == D_000BF620) {
+        func_0002A330();
+        if (func_0001E0E0(t)) func_00039C50();
+        else func_00039360();
+    }
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00051FE0);
 int func_00052070(s32 type)
 {

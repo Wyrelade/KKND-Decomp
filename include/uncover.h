@@ -49,7 +49,7 @@ typedef struct UncUnit {
 /* List node; D_000D1320 is the sentinel head (func_000520E0). */
 typedef struct UncNode {
     struct UncNode *next;
-    s32 f4;
+    struct UncNode *prev;
     s32 f8;                      /* key */
     s32 fc;                      /* value */
 } UncNode;
@@ -87,5 +87,11 @@ typedef struct UncCtl {
     u8 _pad0[8];
     UncFlags *f8;
 } UncCtl;
+
+typedef struct UncObj {
+    u8 _pad0[0x10];
+    s32 f10;                     /* type */
+    s32 f14;                     /* owner */
+} UncObj;
 
 #endif

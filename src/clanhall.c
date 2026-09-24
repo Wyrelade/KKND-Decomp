@@ -1,5 +1,6 @@
 /* clanhall.c: 15 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
+#include "clanhall.h"
 /* decls */
 extern s32 D_000BEA74;
 void func_00039D00();
@@ -17,7 +18,15 @@ void func_00039C30(void *e)
     func_00039D00(e);
     func_0004E7D0(e);
 }
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00039C50);
+int func_00039C50(void)
+{
+    int r;
+    if (D_000D0004) {
+        r = func_0002A8E0(D_000D0004);
+        D_000D0004 = 0;
+    }
+    return r;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00039C80);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00039CC0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00039D00);

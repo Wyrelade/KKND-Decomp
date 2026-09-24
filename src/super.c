@@ -21,7 +21,19 @@ void func_00032C50(int a)
     func_00026F40(&((SuperObj **)func_00027440(D_000B5200))[a]->field_C);
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00032C80);
+SuperL *func_00032C80(void)
+{
+    s32 n = D_000BE7DC;
+    SuperL *p;
+    s32 i = 0;
+    for (p = D_000CFF9C.next; p != &D_000CFF9C; p = p->next, i++) {
+        if (i == n) goto done;
+    }
+    p = 0;
+done:
+    D_000BE7DC = n;
+    return p;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00032CC0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00032D10);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00032DA0);
@@ -42,8 +54,24 @@ void func_00032F50(void)
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00032FB0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00033030);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00033080);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00033140);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00033180);
+int func_00033140(void)
+{
+    int r;
+    if (D_000BE7D8) {
+        r = func_0004C09C(D_000CFF40, D_000BE7BC, 0x1131);
+        D_000BE7D8 = 0;
+    }
+    return r;
+}
+int func_00033180(void)
+{
+    int r;
+    if (D_000BE7D8) {
+        r = func_0004C09C(D_000CFF40, D_000BE7BC, 0x1131);
+        D_000BE7D8 = 0;
+    }
+    return r;
+}
 void func_000331C0(void)
 {
     if (D_000CFF30.next != &D_000CFF30) {
@@ -270,7 +298,15 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_00037AE0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00037B70);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00037BC0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00037F30);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00038050);
+int func_00038050(void)
+{
+    SuperPos *s = D_000BE7E8->field_38;
+    int r;
+    s->field_88 = 1;
+    r = func_0001B3E0((s16)(s->field_10 >> 8), (s16)(s->field_14 >> 8));
+    D_000BE7CC = 0;
+    return r;
+}
 void func_00038090(void)
 {
     D_000BE7CC = 1;
@@ -488,7 +524,15 @@ void func_00039340(void *a)
     func_0004E7D0(a);
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00039360);
+int func_00039360(void)
+{
+    int r;
+    if (D_000D0004) {
+        r = func_0002A8E0(D_000D0004);
+        D_000D0004 = 0;
+    }
+    return r;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00039390);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000393D0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00039410);
