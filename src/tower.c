@@ -85,7 +85,19 @@ void func_00047A20(TowerObj *a)
 }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00047A40);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00047CE0);
+int func_00047CE0(TowerObj *a)
+{
+    TowerObj *u = a->field_3C;
+    int r;
+    if (!u) {
+        u = func_0001E310(a);
+        func_00047A40(u);
+        func_0005CF90(u);
+    }
+    r = ((int (*)())u->field_40)(u);
+    if (u->field_138) u->field_138--;
+    return r;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00047D30);
 void func_00047DD0(TowerObj *a)
 {
@@ -132,7 +144,19 @@ void func_00048220(TowerObj *a)
 }
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00048240);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_000484D0);
+int func_000484D0(TowerObj *a)
+{
+    TowerObj *u = a->field_3C;
+    int r;
+    if (!u) {
+        u = func_0001E310(a);
+        func_00048240(u);
+        func_0005CF90(u);
+    }
+    r = ((int (*)())u->field_40)(u);
+    if (u->field_138) u->field_138--;
+    return r;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00048520);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00048580);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000485E0);

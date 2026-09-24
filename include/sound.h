@@ -56,4 +56,6 @@ typedef struct SndNode {
 typedef struct { u8 _pad[0x4C]; u32 field_4C; } SndCfg;
 typedef struct { u8 _pad[0x18]; SndCfg *field_18; } SndObj;
 
+typedef struct SndReq { u8 _pad[0x10]; s32 f10; s32 f14; } SndReq;
+
 #endif

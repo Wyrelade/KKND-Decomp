@@ -22,8 +22,8 @@ typedef struct BeastPos {
 } BeastPos;
 typedef struct BeastHdr { u8 _pad0[0xC]; s32 field_C; u8 _pad10[0x24]; void (*field_34)(); } BeastHdr;
 typedef struct BeastGfx { u8 _pad0[0x10]; s32 field_10; u8 _pad14[0x20]; s32 field_34; } BeastGfx;
-typedef struct BeastTgt { u8 _pad0[0x10]; s32 field_10; s32 field_14; u8 _pad18[0x11C]; s32 field_134; } BeastTgt;
-typedef struct BeastSlot { BeastTgt *field_0; } BeastSlot;
+typedef struct BeastTgt { u8 _pad0[0xC]; s32 field_C; s32 field_10; s32 field_14; u8 _pad18[0x104]; struct BeastTgt *field_11C; u8 _pad120[0x14]; s32 field_134; } BeastTgt;
+typedef struct BeastSlot { BeastTgt *field_0; u8 _pad4[0x8]; s16 field_C; } BeastSlot;
 typedef struct BeastMsg { s32 field_0; BeastTgt *field_4; } BeastMsg;
 typedef struct BeastObj {
     u8 _pad0[0x8];
@@ -52,7 +52,7 @@ typedef struct BeastObj {
     s32 field_E0;
     BeastTgt *field_E4;
     s32 field_E8;
-    u8 _padEC[0x4];
+    BeastTgt *field_EC;
     s32 field_F0;
     u8 _padF4[0x40];
     s32 field_134;
@@ -96,6 +96,14 @@ void func_00042658();
 extern s32 D_000CD960[];
 extern char D_000B6950[];
 extern char D_000B6970[];
+void func_0004C163();
+void func_0003E930();
+void func_0004B670();
+extern s32 D_000BF4E8[];
+extern char D_000BF4DC[];
+extern char D_000B6708[];
+extern char D_000B6850[];
+extern char D_000B6868[];
 extern s32 D_000BF50C;
 extern char D_000B68F4[];
 

@@ -240,4 +240,10 @@ void func_000469D0(InfFx *a)
 }
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00046A40);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00046C00);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00046C70);
+int func_00046C70(InfBase *a)
+{
+    InfState *s = (InfState *)a->field_3C;
+    int r = s->field_10(s);
+    if (s->field_18) s->field_18--;
+    return r;
+}

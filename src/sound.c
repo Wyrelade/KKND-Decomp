@@ -229,7 +229,14 @@ void func_0001D6B0(void) { D_000BDA34++; }
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001D6C0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DA20);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DA50);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001DBA0);
+int func_0001DBA0(int a, SndReq *r)
+{
+    if (r->f10 == 0x43) return 0;
+    if (r->f10 == 0x44) return 1;
+    if (a == r->f14) return 1;
+    if (r->f14 != 0 && D_000CDD80[a][r->f14] == 0) return 1;
+    return 0;
+}
 int func_0001DC00(int a, SndPos *s)
 {
     if (s->f10 == 0x43)

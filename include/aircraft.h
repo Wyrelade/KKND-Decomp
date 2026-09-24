@@ -93,6 +93,7 @@ extern AirNode *D_000CFDE0;
 extern AirNode D_000CFDD0;
 AirNode *func_0004DDF1();
 void func_0002FB80();
+void func_0001A6E0();
 extern s32 D_000CFE1C;
 extern s32 D_000CFE68;
 extern AirUnit *D_000CFE80;

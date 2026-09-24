@@ -111,7 +111,14 @@ void func_0003B4D0(OutState *a)
     }
 }
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003B510);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0003B660);
+void func_0003B660(OutObj *a)
+{
+    s32 *p = a->field_18->field_7C;
+    func_0002D530(p, 0);
+    *p = 0;
+    func_0001AA80(a->field_18);
+    func_00019F90(a->field_1C);
+}
 void func_0003B6A0(Entity *self, s32 arg1, s32 msg)
 {
     EntityState *s = self->state;

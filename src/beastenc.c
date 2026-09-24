@@ -3,7 +3,16 @@
 #include "beastenc.h"
 void func_0003C110();
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0003BCF0);
+void func_0003BCF0(BeastObj *a)
+{
+    BeastSlot *d = a->field_20;
+    d->field_C = 0;
+    func_0004B600(a->field_C, 0x601, 0, 0xca000005);
+    if (d->field_C == 0) {
+        func_0004C163(D_000BF4E8, 0, 0x24, D_000BF4DC, 0xae, 0x24);
+        D_000BF50C = 1;
+    }
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003BD84);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0003BF60);
 int func_0003C040(void)

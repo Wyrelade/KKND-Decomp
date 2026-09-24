@@ -380,7 +380,13 @@ void func_0002E910(void *a, int b)
     func_0001A060(a, 0x80000000, 1);
 }
 
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E940);
+void func_0002E940(AirUnit *a)
+{
+    s32 s = a->field_38;
+    func_0001AA80(a->field_3C);
+    func_0001AA80(s);
+    func_00019F90(a);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002E970);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002EA20);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0002EAEC);
