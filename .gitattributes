@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.bin binary
+# Append-only records: concatenate instead of conflicting between parallel sessions.
+DECOMPILATION_LEARNINGS.md  merge=union
+tools/difficult_functions   merge=union

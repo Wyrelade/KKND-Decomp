@@ -1,0 +1,15 @@
+# your own game files and everything generated from them (never committed)
+dumps/
+asm/
+build/
+expected/
+tools/watcom/
+*.obj
+*.exe
+*.EXE
+__pycache__/
+.venv*/
+venv*/
+.DS_Store
+objdiff.json
+*.err

@@ -1,0 +1,69 @@
+/* mouseptr.c: 37 functions (unit boundaries [H], see configs/DOS/units.csv) */
+#include "common.h"
+#include "mouseptr.h"
+extern MpNode D_000CC610;
+extern void *D_000CC630;
+extern char D_000BD5BC[];
+void func_0001A6E0(void *a, int b);
+void func_0004C09C(void *p, char *file, int line);
+
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00015920);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00015960);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_000159D0);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00015A80);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00015BC0);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00015DC0);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00016380);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00016990);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00016CB0);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00016D30);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00016D50);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00016DA0);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00016F60);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00016F90);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00017020);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00017120);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_000171B0);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00017E90);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00017FF0);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00018D20);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_000190C0);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_000193F4);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_000195E0);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00019610);
+void func_00019730(MpObj *o, s32 v)
+{
+    if (v != o->field_20) {
+        o->field_20 = v;
+        func_0001A6E0(o->field_70, v);
+    }
+}
+
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00019750);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00019A30);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00019A70);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00019AE0);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00019B50);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00019C10);
+int func_00019C60(void)
+{
+    MpNode *n = D_000CC610.field_0;
+    int size = 0;
+    if (n != &D_000CC610) {
+        do {
+            n = n->field_0;
+            size += 0x18;
+        } while (n != &D_000CC610);
+    }
+    return size;
+}
+
+void func_00019C90(void)
+{
+    func_0004C09C(D_000CC630, D_000BD5BC, 0xbf);
+}
+
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00019CB0);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00019D20);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00019D80);
+INCLUDE_ASM("asm/DOS/nonmatchings", func_00019DD0);

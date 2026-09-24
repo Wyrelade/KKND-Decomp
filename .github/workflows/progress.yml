@@ -1,0 +1,39 @@
+# Builds the KKND objdiff-format progress report for decomp.dev. No game data required:
+# the report is derived from committed files only (configs/DOS/functions.csv, units.csv,
+# symbols.txt and src/). A function defined in C in src/ is a verified match because
+# tools/build_kknd.py refuses any C that does not rebuild the retail KKND.EXE byte-for-byte.
+# decomp.dev ingests the uploaded "<version>_report" artifact.
+name: Progress
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [DOS]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate progress report
+        run: |
+          python3 tools/make_report.py build/${{ matrix.version }}/report.json
+          echo "--- report head ---"; head -c 600 build/${{ matrix.version }}/report.json; echo
+
+      - name: Upload progress report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.version }}_report
+          path: build/${{ matrix.version }}/report.json

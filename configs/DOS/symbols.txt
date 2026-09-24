@@ -1,0 +1,3 @@
+// Real names for functions and data: `Name = 0xVA;` (linear address).
+// Read by tools/build_kknd.py, tools/split.py, tools/match.py and tools/make_report.py.
+// Only add a name once its role is proven (see NAMING.md).

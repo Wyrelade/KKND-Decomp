@@ -1,0 +1,4 @@
+# <function> <attempts> <best bytes differing> [tag]   (see DECOMPILATION_LEARNINGS.md)
+# tag jt = Open Watcom jump-threads / lays out the loop differently from Watcom 10.x (PLAN 1.7)
+func_000121B0 16 9 jt
+func_00053700 9 14 jt

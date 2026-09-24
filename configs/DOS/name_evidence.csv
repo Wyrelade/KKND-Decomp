@@ -1,0 +1,162 @@
+va,func,candidate,kind,string
+0x00010150,func_00010150,LVL_LoadLevel,calls,"LVL_LoadLevel(%s) failed
+"
+0x00010150,func_00010150,LVL_LoadLevel,calls,"LVL_LoadLevel(wait.lvl) failed
+"
+0x00010150,func_00010150,LVL_RunLevel,calls,"LVL_RunLevel() failed
+"
+0x00010150,func_00010150,LVL_SubstHunk,calls,"LVL_SubstHunk( ) failed
+"
+0x00010150,func_00010150,LVL_SysInit,calls,"LVL_SysInit() failed
+"
+0x00010150,func_00010150,LoadGameState,calls,"LoadGameState() failed
+"
+0x00010150,func_00010150,NETZ_Init,calls,"NETZ_Init() failed %02x: %s
+"
+0x00010150,func_00010150,UNIT_Init,calls,"UNIT_Init() failed
+"
+0x00010B40,func_00010B40,LVL_LoadLevel,calls,"LVL_LoadLevel(%s) failed
+"
+0x00010B40,func_00010B40,LVL_RunLevel,calls,"LVL_RunLevel() failed
+"
+0x00010B40,func_00010B40,LVL_SubstHunk,calls,"LVL_SubstHunk( ) failed
+"
+0x00012520,func_00012520,NetworkInit,self,NetworkInit(): Could not init serverlist
+0x0001277C,func_0001277C,NetworkEvent,self,NetworkEvent(): Couldn't grab addr of dying server %s
+0x0001277C,func_0001277C,NetworkEvent,self,NetworkEvent(): Couldn't grab addr of server %s
+0x0001277C,func_0001277C,NetworkEvent,self,NetworkEvent(): Invalid client connect
+0x0001277C,func_0001277C,NetworkEvent,self,NetworkEvent(): Invalid server connect
+0x0001277C,func_0001277C,NetworkEvent,self,NetworkEvent(): connect during game
+0x0001277C,func_0001277C,NetworkEvent,self,NetworkEvent(): delete existing
+0x0001277C,func_0001277C,NetworkEvent,self,"NetworkEvent(): delete existing %d
+"
+0x0001277C,func_0001277C,NetworkEvent,self,"NetworkEvent(): find existing %s
+"
+0x0001277C,func_0001277C,NetworkEvent,self,NetworkEvent(): icky unknown link (P_ONEEVENT) 
+0x0001277C,func_0001277C,NetworkEvent,self,NetworkEvent(): ignored surplus P_ONEEVENT
+0x00013A10,func_00013A10,AddToAddrList,self,AddToAddrList(): No free address entry
+0x00013B60,func_00013B60,InitAddrList,self,InitAddrList(): out of memory
+0x00014200,func_00014200,GetServerAddr,self,GetServerAddr(): no serverlist or n too high!
+0x00014230,func_00014230,GetServerName,self,GetServerName(): no serverlist or n too high!
+0x00014280,func_00014280,FindLink,self,FindLink(): link %d not found!
+0x00014310,func_00014310,GetFreeColour,self,"GetFreeColour(): All colours used, big problem!"
+0x000143A0,func_000143A0,GetFreePlayer,self,GetFreePlayer(): NumOfPlayers is wrong (%d != %d)
+0x00014460,func_00014460,FatalNetError,self,FatalNetError(): Null task ptr; %x: %s
+0x00014460,func_00014460,FatalNetError,self,FatalNetError(): Task %p id:%x; %x: %s
+0x00014550,func_00014550,NetworkInit,self,NetworkInit(): Could not init serverlist
+0x00014550,func_00014550,NetworkInit,self,NetworkInit(): Protocol %d failed to init %x: %s
+0x00014550,func_00014550,NetworkInit,self,NetworkInit(): Setup failed %x: %s
+0x00014550,func_00014550,NetworkInit,self,"NetworkInit(): Warning: serverlist still initialised, deleting"
+0x0001F140,func_0001F140,NETZ_IsAddrSame,self,NETZ_IsAddrSame(): No protocol selected!
+0x0001F1A0,func_0001F1A0,NETZ_RefreshUserInfo,self,NETZ_RefreshUserInfo(): No protocol selected!
+0x0001F250,func_0001F250,NETZ_Hangup,self,NETZ_Hangup(): No protocol selected!
+0x0001F250,func_0001F250,NETZ_Hangup,self,NETZ_Hangup(): link value %d invalid
+0x0001F2D0,func_0001F2D0,NETZ_Send,self,NETZ_Send(): No protocol selected!
+0x0001F2D0,func_0001F2D0,NETZ_Send,self,NETZ_Send(): send to NULL link
+0x0001F2D0,func_0001F2D0,NETZ_Send,self,NETZ_Send(): send to non-connected link %d
+0x0001F370,func_0001F370,NETZ_Connect,self,NETZ_Connect(): no protocol selected!
+0x0001F3C0,func_0001F3C0,NETZ_ReleaseAddr,self,NETZ_ReleaseAddr(): No protocol selected!
+0x0001F3C0,func_0001F3C0,NETZ_ReleaseAddr,self,NETZ_ReleaseAddr(): Null address pointer
+0x0001F410,func_0001F410,NETZ_GrabSenderAddr,self,NETZ_GrabSenderAddr(): No protocol selected!
+0x0001F410,func_0001F410,NETZ_GrabSenderAddr,self,NETZ_GrabSenderAddr(): Null event pointer
+0x0001F630,func_0001F630,NETZ_InitPacketPool,calls,NETZ_InitPacketPool() failed
+0x0001F630,func_0001F630,NETZ_SelectProtocol,self,NETZ_SelectProtocol(): %s was not detected
+0x0001F630,func_0001F630,NETZ_SelectProtocol,self,NETZ_SelectProtocol(): invalid protocol number
+0x0001F730,func_0001F730,NETZ_DetectAll,self,NETZ_DetectAll(): no protocols were detected
+0x0001F820,func_0001F820,NETZ_Unlock,self,NETZ_Unlock(): No protocol selected!
+0x0001F880,func_0001F880,NETZ_Lockin,self,NETZ_Lockin(): No protocol selected!
+0x0001F8E0,func_0001F8E0,NETZ_SwitchMode,self,NETZ_SwitchMode(): No protocol selected!
+0x0001F960,func_0001F960,NETZ_Setup,self,NETZ_Setup(): No protocol selected!
+0x0001F9D0,func_0001F9D0,NETZ_Init,self,NETZ_Init(): %s not selected: %02x : %s
+0x0001F9D0,func_0001F9D0,NETZ_Init,self,NETZ_Init(): Event handler must be specified
+0x0001F9D0,func_0001F9D0,NETZ_Init,self,NETZ_Init(): UserInfo block is too long
+0x0001F9D0,func_0001F9D0,NETZ_Init,self,NETZ_Init(): progname is a required parameter!
+0x0001F9D0,func_0001F9D0,NETZ_Init,self,NETZ_Init(): progname must be non-blank
+0x000217F0,func_000217F0,LoadGameState,self,LoadGameState(): bad airstrike mode
+0x000217F0,func_000217F0,LoadGameState,self,LoadGameState(): couldn't allocate memory for airstrikes
+0x000217F0,func_000217F0,LoadGameState,self,LoadGameState(): couldn't restore constructs
+0x00024310,func_00024310,LoadGameState,self,LoadGameState(): produce unit has no building info
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): COL_Init() failed
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): CRG_Init() failed
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): FRAME_Init() failed
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): FX_Init() failed
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): HAND_InitHandlers() failed
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): Image_Init() failed
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): KEY_Init() failed
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): MOB_Init() failed
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): SCL_Init() failed
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): SNAP_Init() failed
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): TASK_Init() failed
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): TEXT_Init() failed
+0x00027640,func_00027640,LVL_RunLevel,self,LVL_RunLevel(): type index already set!
+0x00027900,func_00027900,LVL_LoadLevelAsync,self,LVL_LoadLevelAsync(): MEM_Alloc()
+0x00027900,func_00027900,LVL_LoadLevelAsync,self,LVL_LoadLevelAsync(): could not open file %s
+0x00027900,func_00027900,LVL_LoadLevelAsync,self,LVL_LoadLevelAsync(): couldn't add AsyncLoader
+0x00027B80,func_00027B80,LVL_LoadLevel,self,LVL_LoadLevel(): RLOC_Relocate() failed
+0x00027B80,func_00027B80,LVL_LoadLevel,self,LVL_LoadLevel(): could not open file '%s'
+0x00027B80,func_00027B80,LVL_LoadLevel,self,LVL_LoadLevel(): error reading first hunk
+0x00027B80,func_00027B80,LVL_LoadLevel,self,LVL_LoadLevel(): error reading relocation data
+0x00027C30,func_00027C30,LVL_SysInit,self,LVL_SysInit(): CTRL_C_Init() failed
+0x00027C30,func_00027C30,LVL_SysInit,self,LVL_SysInit(): FILE_Init() failed
+0x00027C30,func_00027C30,LVL_SysInit,self,LVL_SysInit(): FMV_Init() failed
+0x00027C30,func_00027C30,LVL_SysInit,self,LVL_SysInit(): HAND_Init() failed
+0x00027C30,func_00027C30,LVL_SysInit,self,LVL_SysInit(): INI_Init() failed
+0x00027C30,func_00027C30,LVL_SysInit,self,LVL_SysInit(): RLOC_Init() failed
+0x00027C30,func_00027C30,LVL_SysInit,self,LVL_SysInit(): SOUND_Init() failed
+0x00029A00,func_00029A00,NETZ_CancelEvent,self,NETZ_CancelEvent(): event %p not in use
+0x00029A30,func_00029A30,NETZ_ProcessEvents,self,NETZ_ProcessEvents(): Event type %d error %02x : %s
+0x00029A30,func_00029A30,NETZ_ProcessEvents,self,NETZ_ProcessEvents(): event %p is not in use!
+0x00029AC0,func_00029AC0,NETZ_AddEvent,self,NETZ_AddEvent(): Outta events
+0x00029AC0,func_00029AC0,NETZ_AddEvent,self,NETZ_AddEvent(): event %p in use!
+0x00029C40,func_00029C40,NETZ_InitEventPool,self,NETZ_InitEventPool(): Out of memory; needed %d bytes
+0x00029D30,func_00029D30,NETZ_InitPacketPool,self,NETZ_InitPacketPool(): out of mem
+0x00029DD0,func_00029DD0,NETZ_ReleasePacket,self,NETZ_ReleasePacket(): member %p not in use
+0x00029E10,func_00029E10,NETZ_GrabPacket,self,NETZ_GrabPacket(): PPool empty
+0x00029E10,func_00029E10,NETZ_GrabPacket,self,NETZ_GrabPacket(): member %p in use
+0x00029F00,func_00029F00,NETZ_OpenLink,self,NETZ_OpenLink(): No free links
+0x000348B0,func_000348B0,servcancel,self,servcancel(): NETZ_SwitchMode() returned %x: %s
+0x00035A70,func_00035A70,netnew,self,netnew(): NETZ_SwitchMode() returned %x: %s
+0x00035B90,func_00035B90,netjoin,self,netjoin(): NETZ_Connect() failed %x: %s
+0x00035DC0,func_00035DC0,net_menu,self,net_menu(): couldn't add mob
+0x00035DC0,func_00035DC0,net_menu,self,net_menu(): couldn't open menu window
+0x000360E0,func_000360E0,player_list,self,player_list(): couldn't add mob
+0x000360E0,func_000360E0,player_list,self,player_list(): couldn't open window
+0x00037570,func_00037570,mubuttons,self,mubuttons(): support missing?
+0x00037620,func_00037620,mu_init,self,mu_init(): NetworkInit() failed
+0x0004A010,func_0004A010,MultiPlayerControlLoop,self,MultiPlayerControlLoop(): Lost link to server
+0x0004C250,func_0004C250,MIPX_Hangup,self,MIPX_Hangup(): link %d: no free events
+0x0004C2E0,func_0004C2E0,MIPX_SetupServerConnection,self,MIPX_SetupServerConnection(): couldn't open link
+0x0004C2E0,func_0004C2E0,MIPX_SetupServerConnection,self,MIPX_SetupServerConnection(): no free event
+0x0004C810,func_0004C810,MIPX_SetupClientConnection,self,MIPX_SetupClientConnection(): couldn't open link
+0x0004C810,func_0004C810,MIPX_SetupClientConnection,self,MIPX_SetupClientConnection(): no free event
+0x0004C9B8,func_0004C9B8,MIPX_ProcessPacket,self,MIPX_ProcessPacket(): no free event
+0x0004C9B8,func_0004C9B8,Process_Packet,self,Process_Packet(): ignored system p_type %d
+0x0005E9C0,func_0005E9C0,Process_LFConnect,self,Process_LFConnect(): couldn't open link
+0x0005E9C0,func_0005E9C0,SER_ConnectToServer,self,SER_ConnectToServer(): no free event
+0x0005EAD0,func_0005EAD0,Process_LFConnect,self,Process_LFConnect(): couldn't open link
+0x0005EAD0,func_0005EAD0,SER_ConnectToServer,self,SER_ConnectToServer(): no free event
+0x0005EB90,func_0005EB90,SER_GrabSenderAddress,self,SER_GrabSenderAddress(): invalid ptype
+0x0005ECA0,func_0005ECA0,Process_Packet,self,Process_Packet(): ignored system p_type %d
+0x0005ECA0,func_0005ECA0,Process_Packet,self,Process_Packet(): receive error %02x
+0x0005F2C0,func_0005F2C0,SER_LostLink,self,SER_LostLink(): no free events
+0x0005F2C0,func_0005F2C0,SER_LostLink,self,SER_LostLink(): not connected!
+0x0005F6A0,func_0005F6A0,do_send,self,do_send(): Packet pool empty
+0x0005F6A0,func_0005F6A0,do_send,self,do_send(): Packet type %d too big
+0x0005F6A0,func_0005F6A0,do_send,self,do_send(): no free event
+0x0005F9A0,func_0005F9A0,SER_Init,self,SER_Init(): Selected com port not usable
+0x0005FC00,func_0005FC00,SER_Detect,self,SER_Detect(): using default config
+0x0005FC70,func_0005FC70,SER_Detect,self,SER_Detect(): Port not detected!
+0x00068810,func_00068810,VBE_getModeInfo,calls,VBE_getModeInfo() failed for VESA_Best_Mode
+0x000689C0,func_000689C0,SV_Init,calls,SV_Init() failed
+0x000703A0,func_000703A0,GetLocalAddr,self,GetLocalAddr(): Cannot get adress
+0x00070490,func_00070490,InitECBPool,self,InitECBPool(): out of mem
+0x00070530,func_00070530,GrabFreeECB,self,GrabFreeECB(): ECBPool empty
+0x00070530,func_00070530,GrabFreeECB,self,GrabFreeECB(): member %p in use
+0x000706A0,func_000706A0,nIPX_RelinguishControl,self,nIPX_RelinguishControl(): ?
+0x00070800,func_00070800,IPX_Send,self,IPX_Send(): possible err
+0x00070A30,func_00070A30,IPX_Listen,self,"IPX_Listen(): Failure, nonlistening socket!
+"
+0x00070A30,func_00070A30,IPX_Listen,self,"IPX_Listen(): Success!
+"
+0x00070A30,func_00070A30,IPX_Listen,self,"IPX_Listen(): Unknown errcode: %x
+"
