@@ -120,7 +120,7 @@ void func_00046410(void)
 
 void func_00046420(InfState *a, int b)
 {
-    a->field_10 = func_00046920;
+    a->field_10 = (int (*)())func_00046920;
     a->field_C = (s32)a->field_8->field_E4;
     a->field_30 = a->field_8->field_E4->field_134;
 }

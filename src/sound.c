@@ -186,7 +186,22 @@ s32 func_0001CB90(void) { return D_000BD8E8 = (D_000BD8E8 * 0xc45 + 0x362b) & 0x
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001CBB0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001CBF0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001CCC0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_0001CDC4);
+int func_0001CDC4(SndObj *a, int b)
+{
+    switch (a->field_18->field_4C) {
+    case 0x200:
+        switch (b) {
+        case 0: return 0x1000;
+        case 1: case 4: return 0x800;
+        case 2: case 3: return 0x1800;
+        }
+    case 0x80:
+        return 0x1000;
+    case 0x1000:
+        return 0x1D00;
+    }
+    return 0;
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001CE34);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001CEA4);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_0001CF40);

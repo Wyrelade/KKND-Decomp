@@ -1,0 +1,184 @@
+diff --git a/bld/cg/c/bldsel.c b/bld/cg/c/bldsel.c
+index 6dc64e43..2e0ace69 100644
+--- a/bld/cg/c/bldsel.c
++++ b/bld/cg/c/bldsel.c
+@@ -31,6 +31,7 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
+ #include "coderep.h"
+ #include "cgmem.h"
+ #include "seldef.h"
+@@ -445,7 +446,8 @@ static void DoBinarySearch( an node, const select_list *list, const type_def *ti
+             return;
+         }
+     }
+-    if( hi == mid + 1 && U64isEq( mid_list->next->low, mid_list->next->high ) ) {
++    if( hi == mid + 1 && U64isEq( mid_list->next->low, mid_list->next->high )
++      && getenv( "KKND_LINSEL" ) != NULL ) {  /* KKND: Watcom 10.x had no linear shortcut */
+         /*
+          * a linear sequence for three different non-sequential cases where
+          * c1<c2<c3, looks like:
+diff --git a/bld/cg/c/blktrim.c b/bld/cg/c/blktrim.c
+index 5b346d0e..6b6571c0 100644
+--- a/bld/cg/c/blktrim.c
++++ b/bld/cg/c/blktrim.c
+@@ -31,6 +31,7 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
+ #include "coderep.h"
+ #include "cgmem.h"
+ #include "data.h"
+@@ -256,7 +257,10 @@ static  bool    Retarget( block *blk )
+     blk->input_edges = NULL;
+     for( ; edge != NULL; edge = next ) {
+         next = edge->next_source;
+-        if( _IsBlkAttr( edge->source, BLK_SELECT | BLK_LABEL_RETURN ) ) {
++        if( _IsBlkAttr( edge->source, BLK_SELECT | BLK_LABEL_RETURN )
++          || ( getenv( "KKND_NORETRET" ) != NULL
++            && _IsBlkAttr( edge->source, BLK_CONDITIONAL )
++            && _IsBlkAttr( target, BLK_RETURN ) ) ) {
+             success = false;   /* let the optimizer do it later on*/
+             edge->next_source = blk->input_edges;
+             blk->input_edges = edge;
+diff --git a/bld/cg/c/cse.c b/bld/cg/c/cse.c
+index 721fa0c6..bcb4e28a 100644
+--- a/bld/cg/c/cse.c
++++ b/bld/cg/c/cse.c
+@@ -31,6 +31,7 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
+ #include "coderep.h"
+ #include "zoiks.h"
+ #include "tree.h"
+@@ -1604,7 +1605,7 @@ bool    CommonSex( bool leave_indvars_alone )
+         change = false;
+         if( DoPropagateMoves() )
+             change = true;
+-        if( StretchEdges() ) {
++        if( getenv( "KKND_STRETCH" ) != NULL && StretchEdges() ) {  /* KKND: off, Watcom 10.x did not thread these */
+             change = true;
+             loops_killed = true;
+             CleanPartition();
+diff --git a/bld/cg/c/loopopts.c b/bld/cg/c/loopopts.c
+index 9a812700..df76f781 100644
+--- a/bld/cg/c/loopopts.c
++++ b/bld/cg/c/loopopts.c
+@@ -31,6 +31,7 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
+ #include "coderep.h"
+ #include "indvars.h"
+ #include "cgmem.h"
+@@ -3420,6 +3421,28 @@ static  void    DupNoncondInstrs( block *cond_blk, instruction *cond, block *pre
+ }
+ #endif
+ 
++static  bool    KKNDSingleExit( block *cond_blk )
++/* true if no loop block other than cond_blk leaves the loop */
++{
++    block       *blk;
++    block_num   i;
++
++    for( blk = Loop; blk != NULL; blk = blk->u.loop ) {
++        if( blk == cond_blk )
++            continue;
++        if( _IsBlkAttr( blk, BLK_RETURN ) )
++            return( false );
++        for( i = 0; i < blk->targets; ++i ) {
++            if( (blk->edge[i].flags & BEF_DEST_IS_BLOCK) == 0 )
++                return( false );
++            if( !_IsBlkAttr( blk->edge[i].destination.u.blk, BLK_IN_LOOP ) )
++                return( false );
++        }
++    }
++    return( true );
++}
++
++
+ static  bool    TwistLoop( block_list *header_list, bool unroll )
+ /****************************************************************
+  * Try to fall into loops without testing the condition the first
+@@ -3551,6 +3574,10 @@ static  bool    TwistLoop( block_list *header_list, bool unroll )
+             PointEdge( edge, cond_blk->edge[1].destination.u.blk );
+             MoveDownLoop( cond_blk );
+             new_head = loop_edge->destination.u.blk;
++        } else if( getenv( "KKND_NOROT" ) == NULL && KKNDSingleExit( cond_blk ) ) {
++            /* KKND: Watcom 10.x enters a single-exit loop at its bottom test */
++            MoveDownLoop( cond_blk );
++            new_head = loop_edge->destination.u.blk;
+         }
+         if( new_head != NULL
+           && new_head != Head ) {
+diff --git a/bld/cg/intel/c/x86enc2.c b/bld/cg/intel/c/x86enc2.c
+index cfc28780..6545a667 100644
+--- a/bld/cg/intel/c/x86enc2.c
++++ b/bld/cg/intel/c/x86enc2.c
+@@ -32,6 +32,7 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
+ #include "coderep.h"
+ #include "optmain.h"
+ #include "cgmem.h"
+@@ -137,6 +138,8 @@ unsigned DepthAlign( unsigned depth )
+     }
+     if( OptForSize > 0 )
+         return( 1 );
++    if( getenv( "KKND_LOOPALIGN" ) == NULL )
++        return( 1 );    /* KKND: Watcom 10.x never padded loop heads or the code after a jump table */
+     if( _CPULevel( CPU_486 ) ) {
+         if( depth == PROC_ALIGN || depth == DEEP_LOOP_ALIGN )
+             return( 16 );
+diff --git a/bld/cg/intel/c/x86segs.c b/bld/cg/intel/c/x86segs.c
+index d5bb49a4..e28fa262 100644
+--- a/bld/cg/intel/c/x86segs.c
++++ b/bld/cg/intel/c/x86segs.c
+@@ -66,7 +66,11 @@ hw_reg_set      CalcSegment( cg_sym_handle sym, cg_class class ) {
+     segment_id  segid;
+     hw_reg_set  *reg;
+ 
+-    if( class == CG_TBL || class == CG_VTB || class == CG_CLB ) {
++    if( class == CG_TBL ) {
++        /* KKND: Watcom 10.x addressed switch jump tables through CS even in flat model */
++        return( HW_CS );
++    }
++    if( class == CG_VTB || class == CG_CLB ) {
+         if( _IsTargetModel( CGSW_X86_FLAT_MODEL ) )
+             return( HW_DS );
+         return( HW_CS );
+diff --git a/bld/cg/intel/c/x86sel.c b/bld/cg/intel/c/x86sel.c
+index 1de30dab..6032de50 100644
+--- a/bld/cg/intel/c/x86sel.c
++++ b/bld/cg/intel/c/x86sel.c
+@@ -32,6 +32,7 @@
+ 
+ 
+ #include "_cgstd.h"
++#include <stdlib.h>
+ #include "coderep.h"
+ #include "cgmem.h"
+ #include "tree.h"
+@@ -113,8 +114,12 @@ static cost_val Balance( uint_32 size, uint_32 time )
+     byte        opt_size;
+ 
+     opt_size = OptForSize;
+-    if( opt_size < 25 ) {
+-        opt_size = 25;
++    if( getenv( "KKND_SWOPT" ) != NULL ) {
++        /* KKND experiment: override the size/time balance used to pick a switch strategy */
++        opt_size = (byte)atoi( getenv( "KKND_SWOPT" ) );
++    } else if( opt_size < 15 ) {
++        /* KKND: retail Watcom 10.x switch choices fit a floor in [13,19] (OW uses 25) */
++        opt_size = 15;
+     }
+     balance = ( size * opt_size + 10 * time * ( 100 - opt_size ) ) / 100;
+     if( (int_32)balance < 0 || balance > MAX_COST )

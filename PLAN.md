@@ -52,7 +52,8 @@ There is no splat/objdiff for Watcom LE executables, so Phase 0 built the equiva
 | 1.4 | Unit boundaries | Pin each module's first/last function (string-table order, `CONST` layout, call graph locality). |
 | 1.5 | Easy tier | Leaf functions, getters/setters, wrappers, init loops across all game modules via `score_functions.py`. |
 | 1.6 | Discovery cleanup | Remove data false positives, split merged functions, name the `int` thunks. |
-| 1.7 | Patched wcc386 (**in progress**) | Status 2026-09-24: OW 1.9 bootstrapped from source at `D:/programs/re/openwatcom/src19`, patched binary at `D:/programs/re/openwatcom/patched/binnt/wcc386.exe` with the switch-table `cs:` patch (`i86segs.c` `CalcSegment()` returns HW_CS for CG_TBL). Loop-layout / jump-threading patch not finished; patch not yet validated against the full build or written up in `doc/compiler_patch.md`. Build Open Watcom 1.9 from source with switches that restore Watcom 10.x behaviour where they differ (no jump threading of loop-entry conditions, 10.x loop layout). Same idea as DW2's GCC-Enhanced. Or obtain a genuine Watcom 10.0a `wcc386`. Unblocks the `jt` class in `tools/difficult_functions`. |
+| 1.7 | Patched wcc386 (**done 2026-09-24, session 2**) | `doc/compiler_patch.md`, `tools/owpatch/kknd-wcc386.patch`. Default toolchain. Switch `cs:` + Watcom 10 switch costs + pure binary search, no loop/table padding, no loop-entry threading, bottom-test loop entry. Unblocked func_000121B0, func_00053700, func_000323B0, func_0001CDC4. Next patches: 1.8. |
+| 1.8 | More compiler patches | `rp` register preference (EBX before ECX), `mul` constant-multiply strength reduction, `ci` constants via registers, `fold` memory-operand loads. Largest class first (`rp`, then `mul`). |
 
 ## ▶ PHASE 2 — Core engine
 
@@ -96,7 +97,7 @@ the existing extractor work (`../_extract/kknd_extract.py`).
 ## Next session — start here
 
 1. ~~Merge `doc/agent_notes/` into the journal and `tools/difficult_functions`~~ (done session 2; `-ot` made global).
-2. Finish PLAN 1.7: validate the patched `wcc386` (build must stay `OK`), then the loop patch.
+2. ~~PLAN 1.7 patched `wcc386`~~ (done session 2, default toolchain).
 3. Apply unambiguous names from `configs/DOS/name_evidence.csv` to `symbols.txt` in one pass
    (rename across `src/`, regenerate `asm/`).
 4. Continue matching by module with `tools/score_functions.py` (parallel agents per module group

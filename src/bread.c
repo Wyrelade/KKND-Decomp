@@ -10,7 +10,12 @@ INCLUDE_ASM("asm/DOS/nonmatchings", func_00052CB4);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00052CE0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00052D20);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000534B0);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_00053700);
+void func_00053700(int *p, unsigned n)
+{
+    if (p) {
+        for (; n > 0; n--) *p++ = 0;
+    }
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00053720);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000537A0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00053820);

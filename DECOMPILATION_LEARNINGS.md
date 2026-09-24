@@ -4,6 +4,25 @@ Notes on the Watcom C 32-bit toolchain (`wcc386 -s -of+ -5r -omilert -zm -zp1`, 
 convention) used by this project. Each entry was verified against real target machine code.
 Append new entries at the top. Search with `python tools/learn.py <terms>`.
 
+## The patched `wcc386` is the default: switch tables, no loop padding, no entry threading (session 2).
+
+Found 2026-09-24 (session 2), details in `doc/compiler_patch.md`. Four Watcom 10.x behaviours are
+now baked into the patched Open Watcom code generator, and the build stays OK with it:
+- Switch jump tables are read with a `cs:` prefix, the size/time floor of the switch cost is 15
+  (not 25), and a 3-case node uses a pure binary search. func_000323B0 (4 cases over 0..11) and
+  func_0001CDC4 (nested switch) now match. For a switch where one case falls through into the
+  next, write the source in the retail block order: `case 0x200: switch (b) {...} case 0x80:
+  return 0x1000;` (the inner default falls into the outer case).
+- No alignment padding: `-ot` padded loop heads and the code after a jump table with `lea` NOPs.
+- No threading of a condition known on loop entry: `for (i = 0; i < 0xC4; i++) if (i != 0x54)
+  f(i);` (func_000121B0) now matches as written.
+- A single-exit loop is entered at its bottom test: `if (p) for (; n > 0; n--) *p++ = 0;`
+  (func_00053700).
+Problem to watch for: `tools/match.py` does not check where the code starts after a jump table,
+only the build does (func_0001CDC4 said OK in match.py and failed the build until alignment was
+off). Natural `for`/`while` loops now match where the old notes say to hand-rotate them into
+`if (g) do {} while (c);`. Write the natural form first.
+
 ## Flags are now `-s -of+ -5r -omilert -zm -zp1`: `-ot` fixes argument set-up order (session 2).
 
 Found by agents A, C and D independently (2026-09-24, part 2). Problem: calls whose arguments are

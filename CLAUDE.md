@@ -43,8 +43,8 @@ functions matched. See `PLAN.md` for the roadmap and `PROGRESS.md` for the count
   `CODEGEN_MODEL.md` is the short model of Watcom codegen those entries instantiate — read it first.
 - `python tools/make_report.py` — decomp.dev (objdiff v2) report; `update_readme_progress.py --sync`.
 
-Toolchain: Open Watcom 1.9 (`$WATCOM`, default `D:/programs/re/openwatcom/ow19`, or
-`tools/watcom/`). `wcc386` splits paths on spaces and reads `/` as an option switch, so the
+Toolchain: the patched Open Watcom `wcc386` (`doc/compiler_patch.md`; `$WATCOM`, else
+`tools/watcom/`, else `D:/programs/re/openwatcom/patched`, else stock OW 1.9). `wcc386` splits paths on spaces and reads `/` as an option switch, so the
 tools always compile from `build/tmp` with relative paths — keep it that way.
 
 ## Toolchain / compiler

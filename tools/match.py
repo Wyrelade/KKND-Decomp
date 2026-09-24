@@ -31,10 +31,12 @@ EXE = os.path.join(ROOT, "dumps", "disc", "KKND", "KKND.EXE")
 
 
 def watcom_env():
-    """Toolchain: $WATCOM (default tools/watcom, else D:/programs/re/openwatcom/ow19)."""
+    """Toolchain: $WATCOM, else tools/watcom, else the patched wcc386 (doc/compiler_patch.md),
+    else stock Open Watcom 1.9."""
     wat = os.environ.get("WATCOM")
     if not wat:
-        for cand in (os.path.join(ROOT, "tools", "watcom"), "D:/programs/re/openwatcom/ow19"):
+        for cand in (os.path.join(ROOT, "tools", "watcom"), "D:/programs/re/openwatcom/patched",
+                     "D:/programs/re/openwatcom/ow19"):
             if os.path.isdir(cand):
                 wat = cand
                 break

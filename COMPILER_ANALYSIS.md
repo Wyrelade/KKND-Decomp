@@ -6,7 +6,11 @@ system. (c) Copyright by WATCOM International Corp. 1988-1994" (0x7B7A9) → Wat
 kept an older compiler (normal for a long project). The UniVBE library object carries its own
 "Watcom C/C++386" string (a separate vendor build).
 
-**Compiler (ours):** Open Watcom `wcc386` — 1.9 (default, `D:/programs/re/openwatcom/ow19`) and
+**Compiler (ours, session 2):** the patched Open Watcom 2.0 `wcc386` in `doc/compiler_patch.md`
+(jump tables through `cs:`, Watcom 10 switch costs, no loop padding, no entry threading, bottom-test
+loop entry). It is the default in `tools/match.py`. The notes below describe stock Open Watcom.
+
+**Compiler (stock):** Open Watcom `wcc386` — 1.9 (default, `D:/programs/re/openwatcom/ow19`) and
 2.0 (current snapshot) give identical output on every probe so far. Open Watcom descends from
 Watcom 11.0c, so 10.x→11 codegen changes are the expected source of non-matches.
 

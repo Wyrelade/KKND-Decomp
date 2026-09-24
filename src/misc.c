@@ -1,5 +1,7 @@
 /* misc.c: 20 functions (unit boundaries [H], see configs/DOS/units.csv) */
 #include "common.h"
+/* decls */
+void func_00028790(int);
 int func_0004BFD7(int);
 void func_00027D7B(int);
 extern u8 D_000B96B8[];
@@ -30,7 +32,12 @@ int func_000120A0(char *s)
 
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000120D0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00012140);
-INCLUDE_ASM("asm/DOS/nonmatchings", func_000121B0);
+void func_000121B0(void)
+{
+    int i;
+    for (i = 0; i < 0xC4; i++)
+        if (i != 0x54) func_00028790(i);
+}
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000121E0);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_00012240);
 INCLUDE_ASM("asm/DOS/nonmatchings", func_000122A0);

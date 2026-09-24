@@ -1,7 +1,7 @@
 # KKND Decompilation
 
 <!-- PROGRESS:BADGE -->
-![matched](https://img.shields.io/badge/matched-327%2F3713%20(8.81%25)-1f6feb)
+![matched](https://img.shields.io/badge/matched-331%2F3713%20(8.91%25)-1f6feb)
 <!-- /PROGRESS:BADGE -->
 ![build](https://img.shields.io/badge/build-byte--identical-2ea043)
 ![platform](https://img.shields.io/badge/platform-DOS%20(Watcom%20C%20%2B%20DOS%2F4GW)-8957e5)
@@ -41,8 +41,8 @@ with every relocation resolving to the original target — a scratch match alone
 <!-- PROGRESS:TABLE -->
 | Component | Functions | Matched | Progress |
 |---|---:|---:|---|
-| **Main executable** (`KKND.EXE`) | 3713 | 327 | `▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱` 8.81% |
-| &nbsp;&nbsp;└ Game code (`src/*.c`, 48 modules) | 2006 | 326 | `▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱` 16.25% |
+| **Main executable** (`KKND.EXE`) | 3713 | 331 | `▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱` 8.91% |
+| &nbsp;&nbsp;└ Game code (`src/*.c`, 48 modules) | 2006 | 330 | `▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱` 16.45% |
 | &nbsp;&nbsp;└ Libraries (`src/lib/`) | 1707 | 1 | `▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱` 0.06% |
 <!-- /PROGRESS:TABLE -->
 

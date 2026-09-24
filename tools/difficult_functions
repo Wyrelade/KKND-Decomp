@@ -2,8 +2,6 @@
 # tag jt = Open Watcom jump-threads / lays out the loop differently from Watcom 10.x (PLAN 1.7)
 # tags: rp/ra register preference, mul constant multiply, ci constants via registers, fold memory-operand folding,
 #   isel instruction selection, sched scheduling, loop loop layout, asm not Watcom C, misc (see learnings)
-func_000121B0 16 9 jt
-func_00053700 9 14 jt
 func_00032650 3 28 mul
 func_00038170 4 18 ra
 func_00034F30 4 7 misc
